@@ -1,8 +1,8 @@
-import { createFileRoute, useSearch } from "@tanstack/react-router";
+import { createFileRoute, Link, useSearch } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { ClipboardCopy, Plus, Printer, Sparkles, Trash2, Wand2 } from "lucide-react";
+import { ArrowRight, ClipboardCopy, Plus, Printer, Sparkles, Trash2, Wand2 } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -210,25 +210,27 @@ function CvBuilderInner() {
           </SelectContent>
         </Select>
 
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Template
-          </span>
-          <div className="flex gap-1.5">
-            {(["minimal", "modern", "bold"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => set({ template: t })}
-                className={cn(
-                  "rounded-lg border px-3 py-1.5 text-xs font-semibold capitalize transition-colors",
-                  draft.template === t
-                    ? "border-brand bg-brand-soft"
-                    : "border-border text-muted-foreground hover:bg-secondary",
-                )}
-              >
-                {t}
-              </button>
-            ))}
+        <div className="ml-auto flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Template
+            </span>
+            <div className="flex gap-1.5">
+              {(["minimal", "modern", "bold"] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => set({ template: t })}
+                  className={cn(
+                    "rounded-lg border px-3 py-1.5 text-xs font-semibold capitalize transition-colors",
+                    draft.template === t
+                      ? "border-brand bg-brand-soft"
+                      : "border-border text-muted-foreground hover:bg-secondary",
+                  )}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="flex gap-1.5">
             {(Object.keys(ACCENTS) as Accent[]).map((a) => (
@@ -245,6 +247,24 @@ function CvBuilderInner() {
             ))}
           </div>
         </div>
+      </div>
+
+      {/* Next-step CTA: builder → tracker */}
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-4">
+        <div>
+          <p className="font-display text-sm font-semibold text-brand-navy">
+            CV-mu sudah siap dilamar? 🎯
+          </p>
+          <p className="mt-0.5 font-manrope text-xs text-text-muted">
+            Lacak lamaran dari draft sampai offer di Tracker Lamaran.
+          </p>
+        </div>
+        <Link
+          to="/tracker"
+          className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 font-manrope text-sm font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+        >
+          Lacak lamaran <ArrowRight className="size-4" />
+        </Link>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">

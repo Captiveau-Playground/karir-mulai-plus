@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, BookOpen, CalendarDays } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { client } from "@/utils/orpc";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -66,6 +68,18 @@ const POSTS = [
 ];
 
 function BlogPage() {
+  const { data: serverPosts } = useQuery({
+    queryKey: ["blog", "published"],
+    queryFn: () => client.config.blogPublished(),
+    placeholderData: [],
+    retry: 1,
+  });
+
+  const posts =
+    serverPosts && serverPosts.length > 0
+      ? (serverPosts as unknown as typeof POSTS)
+      : POSTS;
+
   return (
     <AppShell>
       <div className="mb-10 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
@@ -83,10 +97,10 @@ function BlogPage() {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
-        {POSTS.map((post) => (
+        {posts.map((post) => (
           <article
             key={post.title}
-            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
+            className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
           >
             <div className="relative aspect-[16/10] overflow-hidden bg-brand-navy/[0.04]">
               <img
@@ -111,7 +125,7 @@ function BlogPage() {
               <p className="mb-4 line-clamp-3 font-manrope text-sm leading-relaxed text-text-muted">
                 {post.excerpt}
               </p>
-              <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
+              <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
                 <div className="flex items-center gap-3 font-manrope text-[11px] text-text-muted">
                   <span className="flex items-center gap-1">
                     <CalendarDays className="size-3" /> {post.date}

@@ -53,7 +53,7 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
   }
 
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+    <div className="rounded-3xl border border-border bg-card p-6 shadow-sm md:p-8">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -120,7 +120,7 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
           {({ canSubmit, isSubmitting }) => (
             <Button
               type="submit"
-              className="h-11 w-full rounded-full bg-brand-red font-manrope font-bold text-white shadow-lg shadow-brand-red/25 transition-all duration-300 hover:bg-brand-red/90"
+              className="h-11 w-full rounded-full bg-brand font-manrope font-bold text-brand-foreground shadow-lg shadow-brand/25 transition-all duration-300 hover:bg-brand/90"
               disabled={!canSubmit || isSubmitting}
             >
               {isSubmitting ? "Memproses..." : "Masuk"}

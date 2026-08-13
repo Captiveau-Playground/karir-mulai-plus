@@ -15,6 +15,8 @@ import {
   SelectValue,
 } from "@karir-mulai-plus/ui/components/select";
 import { db } from "@/lib/db";
+import { authClient } from "@/lib/auth-client";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { RIASEC_QUESTIONS, scoreRiasec } from "@/lib/engine";
 import { pushProfile } from "@/lib/api";
 import { skillOptions } from "@/lib/mock-data";
@@ -45,10 +47,12 @@ const INTERESTS = ["Product", "Engineering", "Design", "Data", "Business", "Mark
 
 function OnboardingPage() {
   const nav = useNavigate();
+  const { data: session } = authClient.useSession();
+  const riasecQuestions = useConfigValue("master.riasecQuestions", RIASEC_QUESTIONS);
   const [step, setStep] = useState(0);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(session?.user?.name ?? "");
+  const [email, setEmail] = useState(session?.user?.email ?? "");
   const [currentRole, setCurrentRole] = useState(ROLES[0]!);
   const [years, setYears] = useState([0]);
   const [gradYear, setGradYear] = useState("");
@@ -100,14 +104,21 @@ function OnboardingPage() {
                 <Sparkles className="size-3.5" /> Onboarding 60 detik
               </p>
               <h1 className="font-display text-3xl font-bold">{steps[step]}</h1>
-              <div className="mt-5 flex gap-2">
+              <p className="mt-1 font-manrope text-sm text-text-muted">
+                Langkah {step + 1} dari {steps.length} — {steps[step]}
+              </p>
+              <div className="mt-5 flex items-center gap-2">
                 {steps.map((s, i) => (
-                  <div
-                    key={s}
-                    className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      i <= step ? "bg-brand" : "bg-muted"
-                    }`}
-                  />
+                  <div key={s} className="flex flex-1 items-center gap-2">
+                    <div className="h-1.5 flex-1 rounded-full transition-colors" style={{ backgroundColor: i <= step ? "var(--brand)" : "var(--muted)" }} />
+                    <span
+                      className={`hidden text-[10px] font-semibold uppercase tracking-wider sm:block ${
+                        i <= step ? "text-brand" : "text-muted-foreground"
+                      }`}
+                    >
+                      {i + 1}. {s}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
@@ -213,7 +224,7 @@ function OnboardingPage() {
                     Pilih yang lebih mendekati kamu di tiap pasangan. Jawaban ini memberi kode
                     kepribadian (RIASEC) yang ikut menentukan rekomendasi jalur karier.
                   </p>
-                  {RIASEC_QUESTIONS.map((q, i) => (
+                  {riasecQuestions.map((q, i) => (
                     <div key={i} className="grid gap-2 sm:grid-cols-2">
                       {[
                         { label: q.a, code: q.aCode },
@@ -241,12 +252,18 @@ function OnboardingPage() {
                   <ArrowLeft className="size-4" /> Kembali
                 </Button>
                 {step < 2 ? (
-                  <Button onClick={() => setStep((s) => s + 1)}>
+                  <Button
+                    disabled={
+                      (step === 0 && name.trim().length < 2) ||
+                      (step === 1 && skills.length === 0)
+                    }
+                    onClick={() => setStep((s) => s + 1)}
+                  >
                     Lanjut <ArrowRight className="size-4" />
                   </Button>
                 ) : (
                   <Button
-                    disabled={answers.length < RIASEC_QUESTIONS.length}
+                    disabled={answers.length < riasecQuestions.length}
                     onClick={finish}
                     className="bg-coral text-coral-foreground"
                   >

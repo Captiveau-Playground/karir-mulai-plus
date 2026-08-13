@@ -17,16 +17,11 @@ import {
   SelectValue,
 } from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
+import { useMarketData } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 import { marketShareText, marketUpdatedAt } from "@/lib/engine";
 import { shareIntents } from "@/lib/share";
-import {
-  hiringHeat,
-  insightCards,
-  roleSignals,
-  salaryBenchmarks,
-  skillSignals,
-} from "@/lib/mock-data";
+import type { RoleSignal, SkillSignal, SalaryBenchmark, HiringHeat, InsightCard } from "@/hooks/use-server-data";
 
 export const Route = createFileRoute("/market")({
   head: () => ({
@@ -64,10 +59,18 @@ function Trend({ value }: { value: string }) {
 
 function MarketPage() {
   const state = useDb();
+  const market = useMarketData();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("Semua");
   const [sen, setSen] = useState("Semua level");
   const [industry, setIndustry] = useState("Semua industri");
+
+  const rolesData = (market.roles ?? []) as RoleSignal[];
+  const skillsData = (market.skills ?? []) as SkillSignal[];
+  const salariesData = (market.salaries ?? []) as SalaryBenchmark[];
+  const heatData = (market.heat ?? []) as HiringHeat[];
+  const insightsData = (market.insights ?? []) as InsightCard[];
+  const isFromServer = market.isFromServer;
 
   const filters = [
     cat !== "Semua" ? cat : null,
@@ -78,21 +81,21 @@ function MarketPage() {
 
   const roles = useMemo(
     () =>
-      roleSignals.filter(
+      rolesData.filter(
         (r) =>
           (cat === "Semua" || r.category === cat) && r.role.toLowerCase().includes(q.toLowerCase()),
       ),
-    [cat, q],
+    [cat, q, rolesData],
   );
 
   const skills = useMemo(
     () =>
-      skillSignals.filter(
+      skillsData.filter(
         (s) =>
           (cat === "Semua" || s.category === cat) &&
           s.skill.toLowerCase().includes(q.toLowerCase()),
       ),
-    [cat, q],
+    [cat, q, skillsData],
   );
 
   const senKey = sen === "Junior" ? "junior" : sen === "Senior" ? "senior" : "mid";
@@ -102,7 +105,7 @@ function MarketPage() {
       <PageHeader
         eyebrow="Market Signals"
         title="Apa yang benar-benar dicari pasar kerja sekarang"
-        description={`Data permintaan diperbarui mingguan dari agregasi lowongan di Indonesia. Terakhir diperbarui: ${marketUpdatedAt}.`}
+        description={`Data permintaan diperbarui mingguan dari agregasi lowongan di Indonesia. Terakhir diperbarui: ${marketUpdatedAt}.${isFromServer ? " (live dari server)" : " (mode offline)"}`}
         action={
           <div className="flex flex-wrap gap-2">
             <Button
@@ -127,7 +130,7 @@ function MarketPage() {
       />
 
       <div className="mb-6 grid gap-3 lg:grid-cols-3">
-        {insightCards.map((i) => (
+        {insightsData.map((i) => (
           <Card key={i.title} className="p-5">
             <p className="font-display text-base font-semibold">{i.title}</p>
             <p className="mt-2 text-sm text-muted-foreground">{i.body}</p>
@@ -177,7 +180,7 @@ function MarketPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {["Semua industri", ...hiringHeat.map((h) => h.industry)].map((c) => (
+              {["Semua industri", ...heatData.map((h) => h.industry)].map((c) => (
                 <SelectItem key={c} value={c}>
                   {c}
                 </SelectItem>
@@ -266,7 +269,7 @@ function MarketPage() {
               Benchmark tahunan (juta Rupiah) — level ditampilkan: <strong>{sen}</strong>
             </p>
             <div className="space-y-4">
-              {salaryBenchmarks.map((b) => (
+              {salariesData.map((b) => (
                 <div key={b.role}>
                   <div className="mb-1.5 flex justify-between text-sm">
                     <span className="font-medium">{b.role}</span>
@@ -285,7 +288,7 @@ function MarketPage() {
         </TabsContent>
 
         <TabsContent value="heat" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {hiringHeat
+          {heatData
             .filter((h) => industry === "Semua industri" || h.industry === industry)
             .map((h) => (
               <Card key={h.industry} className="p-5">

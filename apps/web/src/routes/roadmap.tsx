@@ -7,6 +7,7 @@ import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import { Progress } from "@karir-mulai-plus/ui/components/progress";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db, levelFromXp } from "@/lib/db";
 import { ROADMAP_WEEKS } from "@/lib/engine";
 import { careerPaths } from "@/lib/mock-data";
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/roadmap")({
 
 function RoadmapPage() {
   const state = useDb();
+  const roadmapWeeks = useConfigValue<Record<string, string[]>>("master.roadmapWeeks", ROADMAP_WEEKS);
   const [activePath, setActivePath] = useState<string | null>(null);
 
   const saved = careerPaths.filter((p) => state.roadmap.includes(p.pathId));
@@ -62,12 +64,12 @@ function RoadmapPage() {
     pathId == null
       ? []
       : (state.roadmapProgress[pathId] ??
-        ROADMAP_WEEKS[pathId]?.map((label) => ({ label, done: false })) ??
+        roadmapWeeks[pathId]?.map((label) => ({ label, done: false })) ??
         []);
   const doneCount = items.filter((i) => i.done).length;
   const pct = items.length ? Math.round((doneCount / items.length) * 100) : 0;
   const completed = pathId != null && state.pathsCompleted.includes(pathId);
-  const totalItems = saved.reduce((acc, p) => acc + (ROADMAP_WEEKS[p.pathId]?.length ?? 0), 0);
+  const totalItems = saved.reduce((acc, p) => acc + (roadmapWeeks[p.pathId]?.length ?? 0), 0);
   const totalDone = saved.reduce(
     (acc, p) => acc + (state.roadmapProgress[p.pathId]?.filter((i) => i.done).length ?? 0),
     0,
@@ -115,7 +117,7 @@ function RoadmapPage() {
         <div className="mb-6 flex flex-wrap gap-2">
           {saved.map((p) => {
             const d = state.roadmapProgress[p.pathId]?.filter((i) => i.done).length ?? 0;
-            const t = ROADMAP_WEEKS[p.pathId]?.length ?? 0;
+            const t = roadmapWeeks[p.pathId]?.length ?? 0;
             return (
               <button
                 key={p.pathId}
@@ -160,7 +162,7 @@ function RoadmapPage() {
               <Progress
                 value={pct}
                 className="h-2 flex-1"
-                indicatorClassName="bg-gradient-to-r from-brand to-coral"
+                indicatorClassName="bg-brand"
               />
               <span className="text-xs font-semibold">{pct}%</span>
             </div>

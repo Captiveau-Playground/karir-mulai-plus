@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BookOpen, CheckCircle2, MessageSquare, Sparkles, Target, Trophy } from "lucide-react";
+import { ArrowRight, Award, BookOpen, CheckCircle2, MessageSquare, Sparkles, Target, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 import {
   evaluateAnswer,
@@ -39,6 +40,12 @@ export const Route = createFileRoute("/interview")({
 
 function InterviewPage() {
   const state = useDb();
+  const interviewQuestions = useConfigValue<Record<string, string[]>>(
+    "master.interviewQuestions",
+    INTERVIEW_ROLE_QUESTIONS,
+  );
+  const starTemplate = useConfigValue("master.starTemplate", STAR_TEMPLATE);
+  const roleOptions = useConfigValue<string[]>("master.roleOptions", ROLE_OPTIONS);
   const [role, setRole] = useState(
     state.profile?.interest === "Data" ? "Data Analyst" : ROLE_OPTIONS[0]!,
   );
@@ -49,7 +56,8 @@ function InterviewPage() {
   const [feedback, setFeedback] = useState<{ score: number; tips: string[] } | null>(null);
   const [scores, setScores] = useState<number[]>([]);
 
-  const questions = INTERVIEW_ROLE_QUESTIONS[role] ?? INTERVIEW_ROLE_QUESTIONS["Product Manager"]!;
+  const questions =
+    interviewQuestions[role] ?? interviewQuestions["Product Manager"] ?? [];
 
   const startMock = () => {
     setTab("mock");
@@ -114,7 +122,7 @@ function InterviewPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {ROLE_OPTIONS.map((r) => (
+              {roleOptions.map((r) => (
                 <SelectItem key={r} value={r}>
                   {r}
                 </SelectItem>
@@ -174,9 +182,9 @@ function InterviewPage() {
 
             <div>
               <Card className="p-5">
-                <p className="font-display text-base font-semibold">{STAR_TEMPLATE.title}</p>
+                <p className="font-display text-base font-semibold">{starTemplate.title}</p>
                 <div className="mt-4 space-y-3">
-                  {STAR_TEMPLATE.steps.map((s) => (
+                  {starTemplate.steps.map((s) => (
                     <div key={s.s} className="rounded-xl border border-border p-3">
                       <p className="text-xs font-bold uppercase tracking-widest text-brand">
                         {s.s}
@@ -222,7 +230,7 @@ function InterviewPage() {
 
               <div className="mb-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
-                  className="h-full bg-gradient-to-r from-brand to-coral transition-all"
+                  className="h-full bg-brand transition-all"
                   style={{ width: `${((idx + (feedback ? 1 : 0)) / questions.length) * 100}%` }}
                 />
               </div>
@@ -255,7 +263,7 @@ function InterviewPage() {
               ) : (
                 <div className="mt-6">
                   <div className="flex items-center gap-3 rounded-2xl bg-muted/60 p-4">
-                    <div className="grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                    <div className="grid size-12 shrink-0 place-items-center rounded-full bg-brand text-white">
                       <Target className="size-5" />
                     </div>
                     <div>
@@ -282,6 +290,32 @@ function InterviewPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Next-step CTA: interview → career/skills */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-4">
+        <div>
+          <p className="font-display text-sm font-semibold text-brand-navy">
+            Sudah siap melamar role ini? 🚀
+          </p>
+          <p className="mt-0.5 font-manrope text-xs text-text-muted">
+            Pastikan skill-mu terverifikasi dan jalur kariermu jelas.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to="/skills"
+            className="inline-flex items-center gap-2 rounded-full border border-brand px-4 py-2 font-manrope text-xs font-bold text-brand transition-colors hover:bg-brand-soft"
+          >
+            <Award className="size-4" /> Uji skill
+          </Link>
+          <Link
+            to="/career"
+            className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 font-manrope text-xs font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+          >
+            Lihat jalur karier <ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </div>
     </AppShell>
   );
 }

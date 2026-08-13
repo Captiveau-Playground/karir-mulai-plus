@@ -1,5 +1,3 @@
-import { currentUser } from "./mock-data";
-
 export type Profile = {
   id: string;
   name: string;
@@ -149,7 +147,32 @@ function persist() {
   listeners.forEach((l) => l());
 }
 
-/** Tambah XP + perbarui streak (lanjut jika kemarin aktif, reset jika bolong). */
+/** Tambah XP + perbarui streak (lanjut jika kemarin aktif, reset jika bolong).
+ *  Nilai XP bisa di-override dari backoffice (gamification.config). */
+const gamificationDefaults = {
+  audit: 15,
+  quiz: 10,
+  booking: 10,
+  application: 5,
+  coach: 5,
+  interview: 10,
+  roadmapItem: 5,
+  roadmapComplete: 30,
+  quest: 10,
+  questAll: 30,
+  rating: 5,
+  levelThreshold: 100,
+};
+let gamification = { ...gamificationDefaults };
+
+export function setGamificationConfig(cfg: Partial<typeof gamificationDefaults>) {
+  gamification = { ...gamificationDefaults, ...cfg };
+}
+
+export function getGamificationConfig() {
+  return gamification;
+}
+
 function reward(n: number) {
   const t = today();
   let streak = state.streak;
@@ -193,7 +216,7 @@ export const db = {
     const rec: AuditRecord = { ...a, id: uid(), at: Date.now() };
     state = { ...state, audits: [rec, ...state.audits].slice(0, 20) };
     persist();
-    reward(15);
+    reward(gamification.audit);
     log("Audit CV selesai 📄");
     return rec;
   },
@@ -206,7 +229,7 @@ export const db = {
     const rec: BookingRecord = { ...b, id: uid(), at: Date.now() };
     state = { ...state, bookings: [rec, ...state.bookings] };
     persist();
-    reward(10);
+    reward(gamification.booking);
     log("Booking mentor 🗓️");
     return rec;
   },
@@ -218,7 +241,7 @@ export const db = {
       ),
     };
     persist();
-    reward(5);
+    reward(gamification.rating);
   },
   setPremium(v: boolean) {
     state = { ...state, premium: v };
@@ -278,11 +301,11 @@ export const db = {
     const allDone = done.length >= allKeys;
     persist();
     if (allDone) {
-      reward(30);
+      reward(gamification.questAll);
       log("Menyelesaikan semua quest harian 🎯");
       return "all";
     }
-    reward(10);
+    reward(gamification.quest);
     log(`Quest harian: ${key}`);
     return done.length === 1 ? "first" : "done";
   },
@@ -293,7 +316,7 @@ export const db = {
     const rec: Application = { ...a, id: uid(), at: Date.now() };
     state = { ...state, applications: [rec, ...state.applications] };
     persist();
-    reward(5);
+    reward(gamification.application);
     log("Lamaran dicatat 💼");
     return rec;
   },
@@ -314,7 +337,7 @@ export const db = {
     state = { ...state, coach: [...state.coach, { role, text, at: Date.now() }].slice(-60) };
     persist();
     if (firstUserMsg) {
-      reward(5);
+      reward(gamification.coach);
       log("Chat pertama dengan coach 💬");
     }
   },
@@ -333,7 +356,7 @@ export const db = {
       ],
     };
     persist();
-    reward(20);
+    reward(gamification.quiz);
     log(`Quiz ${skill} selesai 🧠`);
   },
   isSkillVerified(skill: string) {
@@ -360,31 +383,33 @@ export const db = {
         allDone && !alreadyCompleted ? [...state.pathsCompleted, pathId] : state.pathsCompleted,
     };
     persist();
-    if (isNowDone) reward(5);
-    if (allDone && !alreadyCompleted) reward(30);
+    if (isNowDone) reward(gamification.roadmapItem);
+    if (allDone && !alreadyCompleted) reward(gamification.roadmapComplete);
     if (isNowDone) log("Langkah roadmap selesai 🗺️");
   },
 
   addInterviewDone() {
     state = { ...state, interviewsDone: state.interviewsDone + 1 };
     persist();
-    reward(10);
+    reward(gamification.interview);
     log("Mock interview selesai 🎤");
   },
 };
 
 /** Level dari total XP (100 XP per level). */
-export const levelFromXp = (xp: number) => Math.floor(xp / 100) + 1;
+export const levelFromXp = (xp: number) => Math.floor(xp / gamification.levelThreshold) + 1;
 
-/** Profil awal yang dipakai sebelum onboarding (seeding data mock). */
+/** Profil fallback netral — dipakai UI sebelum onboarding selesai.
+ *  Tidak lagi memakai data mock (budi santoso) — nama diambil dari
+ *  session auth saat render (lihat AppShell/dashboard). */
 export const defaultProfile = (): Profile => ({
-  id: "user123",
-  name: currentUser.name,
-  email: currentUser.email,
-  currentRole: currentUser.currentRole,
-  yearsExp: currentUser.yearsExp,
+  id: "",
+  name: "",
+  email: "",
+  currentRole: "",
+  yearsExp: 0,
   interest: "Product",
-  skills: [...currentUser.skills],
-  riasec: currentUser.assessmentScores.RIASEC,
-  onboardedAt: Date.now(),
+  skills: [],
+  riasec: "",
+  onboardedAt: 0,
 });

@@ -11,6 +11,7 @@ import {
   LineChart,
   Map,
   Menu,
+  LogOut,
   MessagesSquare,
   Moon,
   ShieldCheck,
@@ -30,7 +31,8 @@ import {
   DropdownMenuTrigger,
 } from "@karir-mulai-plus/ui/components/dropdown-menu";
 import { useDb } from "@/hooks/use-db";
-import { db, defaultProfile, levelFromXp } from "@/lib/db";
+import { db, levelFromXp, setGamificationConfig } from "@/lib/db";
+import { client } from "@/utils/orpc";
 import { authClient } from "@/lib/auth-client";
 import { pullFromServer } from "@/lib/api";
 import { Skeleton } from "@karir-mulai-plus/ui/components/skeleton";
@@ -43,18 +45,36 @@ const nav = [
   { to: "/mentors", label: "Mentors", icon: Users },
 ] as const;
 
-const careerOs = [
-  { to: "/cv-builder", label: "CV Builder", icon: FileText },
-  { to: "/coach", label: "AI Coach", icon: Bot },
-  { to: "/tracker", label: "Tracker Lamaran", icon: KanbanSquare },
-  { to: "/interview", label: "Interview Prep", icon: MessagesSquare },
-  { to: "/skills", label: "Skill Quiz", icon: Award },
-  { to: "/roadmap", label: "Roadmap", icon: Map },
+/* Grup fitur untuk dropdown Career OS — bantu user paham peran tiap fitur. */
+const careerGroups = [
+  {
+    label: "Assess",
+    items: [
+      { to: "/cv-audit", label: "CV Audit", icon: FileSearch },
+      { to: "/career", label: "Career Match", icon: Compass },
+      { to: "/skills", label: "Skill Quiz", icon: Award },
+    ],
+  },
+  {
+    label: "Learn",
+    items: [
+      { to: "/coach", label: "AI Coach", icon: Bot },
+      { to: "/roadmap", label: "Roadmap", icon: Map },
+      { to: "/interview", label: "Interview Prep", icon: MessagesSquare },
+    ],
+  },
+  {
+    label: "Apply",
+    items: [
+      { to: "/cv-builder", label: "CV Builder", icon: FileText },
+      { to: "/tracker", label: "Tracker Lamaran", icon: KanbanSquare },
+      { to: "/mentors", label: "Mentors", icon: Users },
+    ],
+  },
 ] as const;
 
 export function AppShell({ children, full = false }: { children: ReactNode; full?: boolean }) {
   const state = useDb();
-  const profile = state.profile ?? defaultProfile();
   const [open, setOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
 
@@ -63,21 +83,40 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
     if (session) void pullFromServer();
   }, [session]);
 
+  // Load config gamifikasi dari backoffice (XP reward override)
+  useEffect(() => {
+    void (async () => {
+      try {
+        const res = await client.config.get({ key: "gamification.config" });
+        if (res?.value && typeof res.value === "object") {
+          setGamificationConfig(res.value as Partial<Record<string, number>>);
+        }
+      } catch {
+        /* fallback ke default */
+      }
+    })();
+  }, []);
+
   // Dark mode: terapkan class ke <html>
   useEffect(() => {
     document.documentElement.classList.toggle("dark", state.theme === "dark");
   }, [state.theme]);
 
-  const initials = profile.name
-    .split(" ")
-    .map((x) => x[0])
-    .slice(0, 2)
-    .join("");
+  // Nama tampilan: profil onboarding > session auth > fallback generik
+  const profile = state.profile;
+  const displayName = profile?.name ?? session?.user?.name ?? "";
+  const initials = displayName
+    ? displayName
+        .split(" ")
+        .map((x) => x[0])
+        .slice(0, 2)
+        .join("")
+    : "";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-bricolage text-xl font-extrabold tracking-tight text-brand-navy">
               MULAI<span className="text-brand-orange">+</span>
@@ -104,17 +143,24 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
               <DropdownMenuTrigger className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
                 Career OS
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-popover">
+              <DropdownMenuContent className="w-72 bg-popover">
                 <DropdownMenuGroup>
                   <DropdownMenuLabel className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     Perjalanan kariermu
                   </DropdownMenuLabel>
-                  {careerOs.map((c) => (
-                    <DropdownMenuItem key={c.to} render={<Link to={c.to} />}>
-                      <span className="flex items-center gap-2">
-                        <c.icon className="size-4 text-brand" /> {c.label}
-                      </span>
-                    </DropdownMenuItem>
+                  {careerGroups.map((g) => (
+                    <div key={g.label} className="mb-1">
+                      <p className="px-3 pt-1 pb-0.5 text-[10px] font-bold uppercase tracking-widest text-brand">
+                        {g.label}
+                      </p>
+                      {g.items.map((c) => (
+                        <DropdownMenuItem key={c.to} render={<Link to={c.to} />}>
+                          <span className="flex items-center gap-2">
+                            <c.icon className="size-4 text-brand" /> {c.label}
+                          </span>
+                        </DropdownMenuItem>
+                      ))}
+                    </div>
                   ))}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem render={<Link to="/market" />}>
@@ -122,12 +168,12 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
                       <LineChart className="size-4 text-brand" /> Sinyal pasar
                     </span>
                   </DropdownMenuItem>
-                  {session?.user?.role === "admin" && (
+                  {(session?.user?.role === "admin" || session?.user?.role === "manager") && (
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem render={<Link to="/admin" />}>
                         <span className="flex items-center gap-2">
-                          <ShieldCheck className="size-4 text-brand-orange" /> Admin Panel
+                          <ShieldCheck className="size-4 text-brand-orange" /> Backoffice
                         </span>
                       </DropdownMenuItem>
                     </>
@@ -159,7 +205,7 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
             {!state.profile && !session && (
               <Link
                 to="/onboarding"
-                className="hidden rounded-xl bg-coral px-4 py-2 text-sm font-semibold text-coral-foreground sm:inline-flex"
+                className="hidden rounded-full bg-brand px-4 py-2 text-sm font-bold text-brand-foreground shadow-sm transition-all duration-300 hover:bg-brand/90 sm:inline-flex"
               >
                 Mulai
               </Link>
@@ -171,25 +217,49 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
             )}
             <div className="hidden text-right md:block">
               <p className="text-sm font-semibold leading-tight">
-                {session?.user.name ?? profile.name}
+                {session?.user.name ?? profile?.name ?? ""}
               </p>
-              <p className="text-xs text-muted-foreground">{profile.currentRole}</p>
+              <p className="text-xs text-muted-foreground">
+                {profile?.currentRole ?? (session ? "Anggota MULAI+" : "")}
+              </p>
             </div>
             {isPending ? (
               <Skeleton className="size-9 rounded-full" />
             ) : session ? (
-              <div className="grid size-9 place-items-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground">
-                {session.user.name
-                  .split(" ")
-                  .map((x) => x[0])
-                  .slice(0, 2)
-                  .join("")}
-              </div>
-            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="grid size-9 cursor-pointer place-items-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground transition-colors hover:bg-secondary/80">
+                  {session.user.name
+                    .split(" ")
+                    .map((x) => x[0])
+                    .slice(0, 2)
+                    .join("")}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-popover" align="end">
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel className="text-sm font-bold">
+                      {session.user.name}
+                    </DropdownMenuLabel>
+                    <DropdownMenuItem className="cursor-pointer text-muted-foreground" disabled>
+                      {session.user.email}
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="cursor-pointer text-destructive focus:text-destructive"
+                    onClick={() => {
+                      void authClient.signOut();
+                      window.location.href = "/";
+                    }}
+                  >
+                    <LogOut className="size-4" /> Keluar
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : profile ? (
               <div className="grid size-9 place-items-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground">
                 {initials}
               </div>
-            )}
+            ) : null}
             <button
               className="grid size-9 place-items-center rounded-lg border border-border lg:hidden"
               onClick={() => setOpen((v) => !v)}
@@ -202,7 +272,7 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
 
         {open && (
           <nav className="border-t border-border bg-background px-4 py-2 lg:hidden">
-            {[...nav, ...careerOs].map((n) => (
+            {nav.map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
@@ -215,6 +285,23 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
               >
                 <n.icon className="size-4 text-brand" /> {n.label}
               </Link>
+            ))}
+            {careerGroups.map((g) => (
+              <div key={g.label} className="mt-2">
+                <p className="px-3 pb-0.5 text-[10px] font-bold uppercase tracking-widest text-brand">
+                  {g.label}
+                </p>
+                {g.items.map((n) => (
+                  <Link
+                    key={n.to}
+                    to={n.to}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground"
+                  >
+                    <n.icon className="size-4 text-brand" /> {n.label}
+                  </Link>
+                ))}
+              </div>
             ))}
             <Link
               to="/onboarding"
@@ -232,6 +319,18 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
                 }}
               >
                 Reset data lokal
+              </button>
+            )}
+            {session && (
+              <button
+                className="block w-full rounded-lg px-3 py-2 text-left text-sm font-medium text-destructive"
+                onClick={() => {
+                  setOpen(false);
+                  void authClient.signOut();
+                  window.location.href = "/";
+                }}
+              >
+                <LogOut className="mr-1 inline size-4" /> Keluar dari akun
               </button>
             )}
           </nav>

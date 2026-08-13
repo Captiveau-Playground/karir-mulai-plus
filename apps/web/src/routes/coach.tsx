@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Bot, Eraser, Send, Sparkles, User } from "lucide-react";
+import { Bot, Compass, Eraser, FileSearch, Send, Sparkles, User } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -8,6 +8,7 @@ import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
 import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db, defaultProfile, levelFromXp } from "@/lib/db";
 import { coachReply, computeMatches, type CoachReply } from "@/lib/engine";
 import { shareIntents } from "@/lib/share";
@@ -35,6 +36,7 @@ const STARTERS = [
 
 function CoachPage() {
   const state = useDb();
+  const starters = useConfigValue<string[]>("coach.starters", STARTERS);
   const profile = state.profile ?? defaultProfile();
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -104,7 +106,7 @@ function CoachPage() {
               disabled={state.coach.length === 0}
               onClick={() => {
                 db.clearCoach();
-                setChips(STARTERS.map((label) => ({ label, to: "/coach" })));
+                setChips(starters.map((label) => ({ label, to: "/coach" })));
               }}
             >
               <Eraser className="size-4" /> Mulai ulang
@@ -117,7 +119,7 @@ function CoachPage() {
         {/* Chat */}
         <Card className="flex h-[70vh] min-h-[480px] flex-col overflow-hidden lg:col-span-2">
           <div className="flex items-center gap-3 border-b border-border bg-muted/40 px-5 py-3">
-            <div className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+            <div className="grid size-9 place-items-center rounded-full bg-brand text-white">
               <Bot className="size-5" />
             </div>
             <div>
@@ -142,7 +144,7 @@ function CoachPage() {
             {state.coach.map((m, i) => (
               <div key={i} className={cn("flex gap-3", m.role === "user" && "justify-end")}>
                 {m.role === "assistant" && (
-                  <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white">
                     <Bot className="size-4" />
                   </div>
                 )}
@@ -166,7 +168,7 @@ function CoachPage() {
 
             {typing && (
               <div className="flex gap-3">
-                <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                <div className="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white">
                   <Bot className="size-4" />
                 </div>
                 <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3">
@@ -301,6 +303,22 @@ function CoachPage() {
             <Sparkles className="size-3" /> Jawaban heuristic lokal — siap ditingkatkan ke AI
             sungguhan
           </Badge>
+
+          {/* Next-step CTA: coach → feature lain */}
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/career"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brand px-4 py-2.5 font-manrope text-xs font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+            >
+              <Compass className="size-4" /> Cek Jalur Karier
+            </Link>
+            <Link
+              to="/cv-audit"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-brand px-4 py-2.5 font-manrope text-xs font-bold text-brand transition-colors hover:bg-brand-soft"
+            >
+              <FileSearch className="size-4" /> Audit CV-mu
+            </Link>
+          </div>
         </div>
       </div>
     </AppShell>

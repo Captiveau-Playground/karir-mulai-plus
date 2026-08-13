@@ -25,9 +25,10 @@ import {
   DialogDescription,
 } from "@karir-mulai-plus/ui/components/dialog";
 import { useDb } from "@/hooks/use-db";
+import { useMentors } from "@/hooks/use-server-data";
 import { pushBooking } from "@/lib/api";
 import { db } from "@/lib/db";
-import { formatIdr, mentors, type Mentor } from "@/lib/mock-data";
+import { formatIdr, type Mentor } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/mentors")({
   head: () => ({
@@ -69,6 +70,8 @@ const specs = [
 const slots = ["09:00", "10:30", "13:00", "15:30", "19:00", "20:30"];
 
 function MentorsPage() {
+  const { mentors } = useMentors();
+  const mentorsData = (mentors ?? []) as Mentor[];
   const [q, setQ] = useState("");
   const [industry, setIndustry] = useState("Semua industri");
   const [avail, setAvail] = useState("Kapan saja");
@@ -80,7 +83,7 @@ function MentorsPage() {
 
   const list = useMemo(
     () =>
-      mentors.filter(
+      mentorsData.filter(
         (m) =>
           (industry === "Semua industri" || m.industry === industry) &&
           (avail === "Kapan saja" || m.availability === avail) &&
@@ -89,7 +92,7 @@ function MentorsPage() {
           (picked.length === 0 || picked.some((p) => m.specializations.includes(p))) &&
           (m.name + m.currentRole + m.company).toLowerCase().includes(q.toLowerCase()),
       ),
-    [q, industry, avail, minExp, maxPrice, picked],
+    [q, industry, avail, minExp, maxPrice, picked, mentorsData],
   );
 
   const badges = [
