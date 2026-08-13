@@ -12,7 +12,7 @@ import Loader from "./loader";
 
 export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
   const navigate = useNavigate({
-    from: "/",
+    from: "/login",
   });
   const { isPending } = authClient.useSession();
 
@@ -32,18 +32,18 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
             navigate({
               to: "/dashboard",
             });
-            toast.success("Sign in successful");
+            toast.success("Berhasil masuk! 🎉");
           },
           onError: (error) => {
-            toast.error(error.error.message || error.error.statusText);
+            toast.error(error.error.message || error.error.statusText || "Gagal masuk");
           },
         },
       );
     },
     validators: {
       onSubmit: z.object({
-        email: z.email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
+        email: z.email("Email tidak valid"),
+        password: z.string().min(8, "Password minimal 8 karakter"),
       }),
     },
   });
@@ -53,32 +53,33 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
   }
 
   return (
-    <div className="mx-auto w-full mt-10 max-w-md p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Welcome Back</h1>
-
+    <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="space-y-4"
+        className="space-y-5"
       >
         <div>
           <form.Field name="email">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Email</Label>
+                <Label htmlFor={field.name} className="font-manrope text-sm font-semibold text-brand-navy">
+                  Email
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
                   type="email"
+                  placeholder="nama@email.com"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
+                  <p key={error?.message} className="font-manrope text-xs text-brand-red">
                     {error?.message}
                   </p>
                 ))}
@@ -91,17 +92,20 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
           <form.Field name="password">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Password</Label>
+                <Label htmlFor={field.name} className="font-manrope text-sm font-semibold text-brand-navy">
+                  Password
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
                   type="password"
+                  placeholder="••••••••"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
+                  <p key={error?.message} className="font-manrope text-xs text-brand-red">
                     {error?.message}
                   </p>
                 ))}
@@ -114,20 +118,24 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
           selector={(state) => ({ canSubmit: state.canSubmit, isSubmitting: state.isSubmitting })}
         >
           {({ canSubmit, isSubmitting }) => (
-            <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Sign In"}
+            <Button
+              type="submit"
+              className="h-11 w-full rounded-full bg-brand-red font-manrope font-bold text-white shadow-lg shadow-brand-red/25 transition-all duration-300 hover:bg-brand-red/90"
+              disabled={!canSubmit || isSubmitting}
+            >
+              {isSubmitting ? "Memproses..." : "Masuk"}
             </Button>
           )}
         </form.Subscribe>
       </form>
 
-      <div className="mt-4 text-center">
+      <div className="mt-5 text-center">
         <Button
           variant="link"
           onClick={onSwitchToSignUp}
-          className="text-indigo-600 hover:text-indigo-800"
+          className="font-manrope text-sm font-semibold text-brand-orange hover:text-brand-orange/80"
         >
-          Need an account? Sign Up
+          Belum punya akun? Daftar gratis
         </Button>
       </div>
     </div>

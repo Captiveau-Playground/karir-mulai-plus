@@ -12,7 +12,10 @@
     "db:migrate:local": "wrangler d1 migrations apply karir-mulai-plus-db --local",
     "db:migrate:remote": "wrangler d1 migrations apply karir-mulai-plus-db --remote",
     "db:migrate:staging": "wrangler d1 migrations apply karir-mulai-plus-db-staging --remote --env staging",
-    "secret:staging": "wrangler secret put BETTER_AUTH_SECRET --env staging"
+    "secret:staging": "wrangler secret put BETTER_AUTH_SECRET --env staging",
+    "seed:admin": "bun run scripts/seed-admin.ts",
+    "seed:admin:local": "ADMIN_API_URL=http://localhost:3000 bun run scripts/seed-admin.ts",
+    "seed:admin:staging": "ADMIN_API_URL=https://api-stag.karir.mulaiplus.id bun run scripts/seed-admin.ts"
   },
   "dependencies": {
     "@karir-mulai-plus/api": "workspace:*",
@@ -24,6 +27,7 @@
     "@orpc/zod": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "drizzle-orm": "^0.45.2",
     "hono": "catalog:",
     "zod": "catalog:"
   },

@@ -51,9 +51,18 @@ jobs:
         working-directory: apps/server
         run: echo "${{ secrets.BETTER_AUTH_SECRET }}" | bunx wrangler secret put BETTER_AUTH_SECRET --env staging
 
+      - name: Set ADMIN_SEED_KEY (staging)
+        working-directory: apps/server
+        run: echo "${{ secrets.ADMIN_SEED_KEY }}" | bunx wrangler secret put ADMIN_SEED_KEY --env staging
+
       - name: Deploy server (staging)
         working-directory: apps/server
         run: bunx wrangler deploy --env staging
+
+      - name: Seed admin (staging) — jika ADMIN_EMAIL & ADMIN_PASSWORD diset
+        working-directory: apps/server
+        if: ${{ secrets.ADMIN_EMAIL != '' && secrets.ADMIN_PASSWORD != '' }}
+        run: ADMIN_API_URL=https://api-stag.karir.mulaiplus.id ADMIN_SEED_KEY="${{ secrets.ADMIN_SEED_KEY }}" ADMIN_EMAIL="${{ secrets.ADMIN_EMAIL }}" ADMIN_PASSWORD="${{ secrets.ADMIN_PASSWORD }}" bun run scripts/seed-admin.ts
 
       - name: Build web (staging)
         working-directory: apps/web
@@ -95,9 +104,18 @@ jobs:
         working-directory: apps/server
         run: echo "${{ secrets.BETTER_AUTH_SECRET }}" | bunx wrangler secret put BETTER_AUTH_SECRET
 
+      - name: Set ADMIN_SEED_KEY (production)
+        working-directory: apps/server
+        run: echo "${{ secrets.ADMIN_SEED_KEY }}" | bunx wrangler secret put ADMIN_SEED_KEY
+
       - name: Deploy server (production)
         working-directory: apps/server
         run: bunx wrangler deploy
+
+      - name: Seed admin (production) — jika ADMIN_EMAIL & ADMIN_PASSWORD diset
+        working-directory: apps/server
+        if: ${{ secrets.ADMIN_EMAIL != '' && secrets.ADMIN_PASSWORD != '' }}
+        run: ADMIN_API_URL=https://api-prod.karir.mulaiplus.id ADMIN_SEED_KEY="${{ secrets.ADMIN_SEED_KEY }}" ADMIN_EMAIL="${{ secrets.ADMIN_EMAIL }}" ADMIN_PASSWORD="${{ secrets.ADMIN_PASSWORD }}" bun run scripts/seed-admin.ts
 
       - name: Build web (production)
         working-directory: apps/web

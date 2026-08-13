@@ -9,7 +9,8 @@ build
 *.tsbuildinfo
 
 # Generated files
-apps/web/src/routeTree.gen.ts
+# note: routeTree.gen.ts DI-COMMIT — typecheck & CI butuh file ini
+# (di-generate ulang otomatis oleh vite dev/build)
 
 # Environment variables
 .env

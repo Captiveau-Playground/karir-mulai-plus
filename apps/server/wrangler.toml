@@ -30,7 +30,7 @@ database_name = "karir-mulai-plus-db"
 database_id = "3e0a00e7-5156-4e77-9f95-e33ddd2a9c35"
 migrations_dir = "../../packages/db/src/migrations"
 
-# Secret (BETTER_AUTH_SECRET) jangan ditaruh di file ini — pakai `wrangler secret put`
+# Secret (BETTER_AUTH_SECRET, ADMIN_SEED_KEY) jangan ditaruh di file ini — pakai `wrangler secret put`
 [vars]
 CORS_ORIGIN = "https://karir.mulaiplus.id"
 BETTER_AUTH_URL = "https://api-prod.karir.mulaiplus.id"

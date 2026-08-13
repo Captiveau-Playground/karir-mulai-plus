@@ -13,6 +13,7 @@ import {
   Menu,
   MessagesSquare,
   Moon,
+  ShieldCheck,
   Sparkles,
   Sun,
   Users,
@@ -51,7 +52,7 @@ const careerOs = [
   { to: "/roadmap", label: "Roadmap", icon: Map },
 ] as const;
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children, full = false }: { children: ReactNode; full?: boolean }) {
   const state = useDb();
   const profile = state.profile ?? defaultProfile();
   const [open, setOpen] = useState(false);
@@ -76,12 +77,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2">
-            <span className="gradient-brand grid size-8 place-items-center rounded-xl text-sm font-bold text-brand-foreground">
-              M+
+            <span className="font-bricolage text-xl font-extrabold tracking-tight text-brand-navy">
+              MULAI<span className="text-brand-orange">+</span>
             </span>
-            <span className="font-display text-base font-semibold">MULAI+</span>
+            <span className="font-manrope text-xs font-bold uppercase tracking-widest text-brand-orange">
+              Career
+            </span>
           </Link>
 
           <nav className="ml-4 hidden items-center gap-1 lg:flex">
@@ -119,6 +122,16 @@ export function AppShell({ children }: { children: ReactNode }) {
                       <LineChart className="size-4 text-brand" /> Sinyal pasar
                     </span>
                   </DropdownMenuItem>
+                  {session?.user?.role === "admin" && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem render={<Link to="/admin" />}>
+                        <span className="flex items-center gap-2">
+                          <ShieldCheck className="size-4 text-brand-orange" /> Admin Panel
+                        </span>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -225,7 +238,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
+      <main className={full ? "" : "mx-auto max-w-6xl px-4 py-8"}>{children}</main>
 
       <footer className="border-t border-border/70 py-8 text-center text-xs text-muted-foreground">
         MULAI+ Career — akselerator karier berbasis data.

@@ -12,7 +12,7 @@ import Loader from "./loader";
 
 export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
   const navigate = useNavigate({
-    from: "/",
+    from: "/login",
   });
   const { isPending } = authClient.useSession();
 
@@ -34,19 +34,19 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
             navigate({
               to: "/dashboard",
             });
-            toast.success("Sign up successful");
+            toast.success("Akun berhasil dibuat! 🎉");
           },
           onError: (error) => {
-            toast.error(error.error.message || error.error.statusText);
+            toast.error(error.error.message || error.error.statusText || "Gagal daftar");
           },
         },
       );
     },
     validators: {
       onSubmit: z.object({
-        name: z.string().min(2, "Name must be at least 2 characters"),
-        email: z.email("Invalid email address"),
-        password: z.string().min(8, "Password must be at least 8 characters"),
+        name: z.string().min(2, "Nama minimal 2 karakter"),
+        email: z.email("Email tidak valid"),
+        password: z.string().min(8, "Password minimal 8 karakter"),
       }),
     },
   });
@@ -56,31 +56,32 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
   }
 
   return (
-    <div className="mx-auto w-full mt-10 max-w-md p-6">
-      <h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
-
+    <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="space-y-4"
+        className="space-y-5"
       >
         <div>
           <form.Field name="name">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Name</Label>
+                <Label htmlFor={field.name} className="font-manrope text-sm font-semibold text-brand-navy">
+                  Nama lengkap
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
+                  placeholder="Nama kamu"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
+                  <p key={error?.message} className="font-manrope text-xs text-brand-red">
                     {error?.message}
                   </p>
                 ))}
@@ -93,17 +94,20 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
           <form.Field name="email">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Email</Label>
+                <Label htmlFor={field.name} className="font-manrope text-sm font-semibold text-brand-navy">
+                  Email
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
                   type="email"
+                  placeholder="nama@email.com"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
+                  <p key={error?.message} className="font-manrope text-xs text-brand-red">
                     {error?.message}
                   </p>
                 ))}
@@ -116,17 +120,20 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
           <form.Field name="password">
             {(field) => (
               <div className="space-y-2">
-                <Label htmlFor={field.name}>Password</Label>
+                <Label htmlFor={field.name} className="font-manrope text-sm font-semibold text-brand-navy">
+                  Password
+                </Label>
                 <Input
                   id={field.name}
                   name={field.name}
                   type="password"
+                  placeholder="Minimal 8 karakter"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors.map((error) => (
-                  <p key={error?.message} className="text-red-500">
+                  <p key={error?.message} className="font-manrope text-xs text-brand-red">
                     {error?.message}
                   </p>
                 ))}
@@ -139,20 +146,24 @@ export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () 
           selector={(state) => ({ canSubmit: state.canSubmit, isSubmitting: state.isSubmitting })}
         >
           {({ canSubmit, isSubmitting }) => (
-            <Button type="submit" className="w-full" disabled={!canSubmit || isSubmitting}>
-              {isSubmitting ? "Submitting..." : "Sign Up"}
+            <Button
+              type="submit"
+              className="h-11 w-full rounded-full bg-brand-navy font-manrope font-bold text-white shadow-lg shadow-brand-navy/25 transition-all duration-300 hover:bg-brand-navy-light"
+              disabled={!canSubmit || isSubmitting}
+            >
+              {isSubmitting ? "Memproses..." : "Daftar Gratis"}
             </Button>
           )}
         </form.Subscribe>
       </form>
 
-      <div className="mt-4 text-center">
+      <div className="mt-5 text-center">
         <Button
           variant="link"
           onClick={onSwitchToSignIn}
-          className="text-indigo-600 hover:text-indigo-800"
+          className="font-manrope text-sm font-semibold text-brand-orange hover:text-brand-orange/80"
         >
-          Already have an account? Sign In
+          Sudah punya akun? Masuk
         </Button>
       </div>
     </div>

@@ -105,6 +105,29 @@ Workflow `.github/workflows/deploy.yml`:
   (profil, audit, lamaran, booking) secara best-effort.
 - Guest mode tetap berfungsi penuh tanpa akun.
 
+## Auth & Admin
+
+- **Auth**: Better Auth (email + password) — signup, signin, session via cookie `better-auth.session_token`.
+- **Role**: kolom `role` di tabel `user` (`user` / `admin`), dikelola plugin admin Better Auth.
+- **Router admin** (`/admin` di web): `listUsers`, `updateRole`, `setBan`, `stats` — semua via `adminProcedure` (butuh role `admin`, selain itu `403 FORBIDDEN`).
+- **Halaman `/admin`**: daftar user + aksi ubah role / ban — hanya tampil untuk admin (menu Admin di dropdown Career OS).
+
+### Seeder admin
+
+```bash
+# lokal (server dev jalan di :3000)
+cd apps/server
+ADMIN_SEED_KEY=local-seed-key-change-me ADMIN_PASSWORD=rahasia123 bun run seed:admin:local
+
+# staging / production
+ADMIN_SEED_KEY=<key> ADMIN_PASSWORD=<pass> bun run seed:admin          # production
+ADMIN_SEED_KEY=<key> ADMIN_PASSWORD=<pass> bun run seed:admin:staging  # staging
+```
+
+Endpoint `POST /api/seed/admin` (diproteksi header `x-seed-key` == `ADMIN_SEED_KEY` secret)
+— idempotent: buat admin jika belum ada, atau pastikan role admin jika sudah ada.
+CI juga otomatis seed admin setelah deploy bila secret `ADMIN_EMAIL` + `ADMIN_PASSWORD` diset.
+
 ## Scripts
 
 | Script | Fungsi |
@@ -118,3 +141,4 @@ Workflow `.github/workflows/deploy.yml`:
 | `bun run db:migrate:local` | migrasi D1 lokal |
 | `bun run db:migrate:remote` | migrasi D1 production |
 | `bun run db:migrate:staging` | migrasi D1 staging |
+| `seed:admin` / `seed:admin:local` / `seed:admin:staging` (di `apps/server`) | seeder admin (production / local / staging) |
