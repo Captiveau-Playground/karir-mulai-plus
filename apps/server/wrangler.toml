@@ -1,0 +1,19 @@
+# ============================================================
+# Server Hono (oRPC + Better Auth) — run lokal / deploy Cloudflare
+# Lokal:  wrangler dev --port 3000   (D1 local, migrasi di bawah)
+# Migrasi: wrangler d1 execute my-better-t-app-db --local --file=../../packages/db/src/migrations/0000_sparkling_black_bolt.sql
+# ============================================================
+name = "mulai-plus-server"
+main = "src/index.ts"
+compatibility_date = "2026-08-12"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "my-better-t-app-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+
+[vars]
+CORS_ORIGIN = "http://localhost:3001"
+BETTER_AUTH_URL = "http://localhost:3000"
+BETTER_AUTH_SECRET = "qATeULUFhAvRYqMMs8oKOJcaIeDeGE05"
