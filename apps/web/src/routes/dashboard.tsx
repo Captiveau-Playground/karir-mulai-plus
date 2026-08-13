@@ -21,7 +21,6 @@ import { Progress } from "@karir-mulai-plus/ui/components/progress";
 import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import { Button } from "@karir-mulai-plus/ui/components/button";
 import { Input } from "@karir-mulai-plus/ui/components/input";
-import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
 import { authClient } from "@/lib/auth-client";
 import { db, levelFromXp, type AppState } from "@/lib/db";
@@ -46,21 +45,25 @@ const QUESTS = [
   {
     key: "audit",
     label: "Audit CV (teks/upload)",
+    to: "/cv-audit" as const,
     check: (s: AppState) => s.audits.some((a) => sameDay(a.at)),
   },
   {
     key: "quiz",
     label: "Selesaikan 1 quiz skill",
+    to: "/skills" as const,
     check: (s: AppState) => s.verifiedSkills.some((v) => sameDay(v.at)),
   },
   {
     key: "lamaran",
     label: "Catat 1 lamaran",
+    to: "/tracker" as const,
     check: (s: AppState) => s.applications.some((a) => sameDay(a.at)),
   },
   {
     key: "coach",
     label: "Tanya coach AI",
+    to: "/coach" as const,
     check: (s: AppState) => s.coach.some((m) => m.role === "user" && sameDay(m.at)),
   },
 ];
@@ -121,47 +124,54 @@ function Dashboard() {
     ? `Skor CV saya ${latestAudit.score}/100 💪 Cek skor CV kamu gratis di MULAI+ Career Compass!`
     : "Cek skor CV kamu gratis di MULAI+ Career Compass 🚀";
 
+  /* ---- Next-action engine: langkah berikutnya berdasarkan progress ---- */
+  const hasAudit = !!latestAudit;
+  const hasCareer = !!topPath;
+  const hasCvDraft = !!state.cvDraft;
+  const hasApplication = state.applications.length > 0;
+  const hasRoadmap = state.roadmap.length > 0;
+  const nextAction = needsOnboarding
+    ? { label: "Mulai onboarding", desc: "Lengkapi profil 60 detik dan dapatkan rekomendasi yang benar-benar untuk kamu.", to: "/onboarding" as const, primary: true }
+    : !hasAudit
+      ? { label: "Audit CV gratis", desc: "Unggah CV-mu, dapatkan skor + perbaikan dalam 30 detik.", to: "/cv-audit" as const, primary: true }
+      : !hasCareer
+        ? { label: "Temukan jalur karier", desc: `Berdasarkan audit & profilmu, cari role yang paling cocok.`, to: "/career" as const, primary: true }
+        : !hasCvDraft
+          ? { label: "Bangun CV target", desc: "Ubah saran audit jadi CV yang siap dilamar.", to: "/cv-builder" as const, primary: true }
+          : !hasApplication
+            ? { label: "Lacak lamaran pertamamu", desc: "Catat lamaran pertama dan kelola stage-nya di satu tempat.", to: "/tracker" as const, primary: true }
+            : !hasRoadmap
+              ? { label: "Buka roadmap belajar", desc: "Checklist mingguan untuk menutup skill gap.", to: "/roadmap" as const, primary: true }
+              : { label: "Latihan interview", desc: "Jaga momentum — asah skill interview untuk offer berikutnya.", to: "/interview" as const, primary: true };
+
+
   return (
     <AppShell>
       <section className="relative mb-8 overflow-hidden rounded-3xl bg-brand-deep p-8 text-white sm:p-12">
         <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-coral/20 blur-3xl" />
         <div className="relative">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
-          <Sparkles className="size-3.5 text-coral" /> Karier kamu, dibaca lewat data
+          <Sparkles className="size-3.5 text-coral" /> Langkah berikutnya untukmu
         </p>
         <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight sm:text-5xl">
           {needsOnboarding ? "Siap mulai?" : `Halo, ${firstName} 👋`}
         </h1>
         <p className="mt-4 max-w-xl text-white/80">
-          {needsOnboarding
-            ? "Lengkapi profil 60 detik dan dapatkan rekomendasi yang benar-benar untuk kamu."
-            : `Berdasarkan profil, asesmen, dan sinyal pasar kerja, ini langkah paling berdampak untuk minggu ini.`}
+          {nextAction.desc}
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          {needsOnboarding ? (
-            <Link
-              to="/onboarding"
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-brand-deep card-hover"
-            >
-              Mulai onboarding <ArrowRight className="size-4" />
-            </Link>
-          ) : (
-            <>
-              <Link
-                to="/cv-audit"
-                className="inline-flex items-center gap-2 rounded-xl bg-coral px-5 py-3 text-sm font-semibold text-coral-foreground card-hover"
-              >
-                {latestAudit ? "Audit ulang CV" : "Mulai CV Audit"}{" "}
-                <ArrowRight className="size-4" />
-              </Link>
-              <Link
-                to="/career"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white card-hover hover:bg-white/10"
-              >
-                Lihat rekomendasi karier
-              </Link>
-            </>
-          )}
+          <Link
+            to={nextAction.to}
+            className="inline-flex items-center gap-2 rounded-xl bg-coral px-5 py-3 text-sm font-semibold text-coral-foreground card-hover"
+          >
+            {nextAction.label} <ArrowRight className="size-4" />
+          </Link>
+          <Link
+            to={nextAction.to === "/cv-audit" || nextAction.to === "/career" ? "/career" : "/market"}
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white card-hover hover:bg-white/10"
+          >
+            {nextAction.to === "/onboarding" || nextAction.to === "/cv-audit" ? "Lihat data pasar" : "Lihat alternatif"}
+          </Link>
         </div>
         </div>
       </section>
@@ -342,35 +352,30 @@ function Dashboard() {
           <div className="mt-4 space-y-2.5">
             {QUESTS.map((q) => {
               const done = isQuestDone(q.key, state);
-              return (
+              return done ? (
                 <button
                   key={q.key}
-                  disabled={done}
-                  onClick={() => {
-                    const res = db.completeQuest(q.key);
-                    if (res === "all")
-                      toast.success("Semua quest selesai! 🎉", { description: "+30 XP bonus" });
-                    else if (res === "repeat") return;
-                    else toast.success(`Quest: ${q.label}`, { description: "+10 XP" });
-                  }}
-                  className={cn(
-                    "flex w-full items-center gap-3 rounded-xl border p-3 text-left text-sm transition-colors",
-                    done
-                      ? "border-success/40 bg-success/[0.06] text-muted-foreground"
-                      : "border-border hover:border-brand hover:bg-brand-soft/40",
-                  )}
+                  disabled
+                  className="flex w-full items-center gap-3 rounded-xl border border-success/40 bg-success/[0.06] p-3 text-left text-sm text-muted-foreground"
                 >
-                  <span
-                    className={cn(
-                      "grid size-5 shrink-0 place-items-center rounded-md border",
-                      done ? "border-success bg-success text-white" : "border-border",
-                    )}
-                  >
-                    {done && <Check className="size-3.5" />}
+                  <span className="grid size-5 shrink-0 place-items-center rounded-md border border-success bg-success text-white">
+                    <Check className="size-3.5" />
                   </span>
                   <span className="flex-1">{q.label}</span>
-                  {!done && <span className="text-xs font-semibold text-brand">+10 XP</span>}
+                  <span className="text-xs font-semibold text-success">Selesai ✓</span>
                 </button>
+              ) : (
+                <Link
+                  key={q.key}
+                  to={q.to}
+                  className="flex w-full items-center gap-3 rounded-xl border border-border p-3 text-left text-sm transition-colors hover:border-brand hover:bg-brand-soft/40"
+                >
+                  <span className="grid size-5 shrink-0 place-items-center rounded-md border border-border">
+                    <ArrowRight className="size-3.5 text-brand" />
+                  </span>
+                  <span className="flex-1">{q.label}</span>
+                  <span className="text-xs font-semibold text-brand">+10 XP →</span>
+                </Link>
               );
             })}
           </div>

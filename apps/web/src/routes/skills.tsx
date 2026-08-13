@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Award, ArrowRight, CheckCircle2, XCircle, Zap } from "lucide-react";
+import { ArrowRight, Award, CheckCircle2, Compass, Map, XCircle, Zap } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -204,15 +204,21 @@ function SkillsPage() {
       </div>
 
       <Card className="mt-6 p-5 text-sm text-muted-foreground">
-        Ingin menambah skill? Cek{" "}
-        <Link to="/market" className="font-semibold text-brand hover:underline">
-          skill paling dicari
-        </Link>{" "}
-        dan pelajari gap-nya lewat{" "}
-        <Link to="/career" className="font-semibold text-brand hover:underline">
-          jalur kariermu
-        </Link>
-        .
+        <p className="font-display text-sm font-semibold text-brand-navy">Lanjutkan perjalananmu</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link
+            to="/roadmap"
+            className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 font-manrope text-xs font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+          >
+            <Map className="size-4" /> Buka Roadmap Belajar
+          </Link>
+          <Link
+            to="/career"
+            className="inline-flex items-center gap-2 rounded-full border border-brand px-4 py-2 font-manrope text-xs font-bold text-brand transition-colors hover:bg-brand-soft"
+          >
+            <Compass className="size-4" /> Cek Jalur Karier
+          </Link>
+        </div>
       </Card>
     </AppShell>
   );

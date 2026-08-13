@@ -1,6 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Bot, Eraser, Send, Sparkles, User } from "lucide-react";
+import { Bot, Compass, Eraser, FileSearch, Send, Sparkles, User } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -303,6 +303,22 @@ function CoachPage() {
             <Sparkles className="size-3" /> Jawaban heuristic lokal — siap ditingkatkan ke AI
             sungguhan
           </Badge>
+
+          {/* Next-step CTA: coach → feature lain */}
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/career"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-brand px-4 py-2.5 font-manrope text-xs font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+            >
+              <Compass className="size-4" /> Cek Jalur Karier
+            </Link>
+            <Link
+              to="/cv-audit"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-brand px-4 py-2.5 font-manrope text-xs font-bold text-brand transition-colors hover:bg-brand-soft"
+            >
+              <FileSearch className="size-4" /> Audit CV-mu
+            </Link>
+          </div>
         </div>
       </div>
     </AppShell>

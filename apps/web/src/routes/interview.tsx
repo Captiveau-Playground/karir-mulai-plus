@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BookOpen, CheckCircle2, MessageSquare, Sparkles, Target, Trophy } from "lucide-react";
+import { ArrowRight, Award, BookOpen, CheckCircle2, MessageSquare, Sparkles, Target, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
 import { Card } from "@karir-mulai-plus/ui/components/card";
 import { Button } from "@karir-mulai-plus/ui/components/button";
@@ -290,6 +290,32 @@ function InterviewPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Next-step CTA: interview → career/skills */}
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-4">
+        <div>
+          <p className="font-display text-sm font-semibold text-brand-navy">
+            Sudah siap melamar role ini? 🚀
+          </p>
+          <p className="mt-0.5 font-manrope text-xs text-text-muted">
+            Pastikan skill-mu terverifikasi dan jalur kariermu jelas.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to="/skills"
+            className="inline-flex items-center gap-2 rounded-full border border-brand px-4 py-2 font-manrope text-xs font-bold text-brand transition-colors hover:bg-brand-soft"
+          >
+            <Award className="size-4" /> Uji skill
+          </Link>
+          <Link
+            to="/career"
+            className="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 font-manrope text-xs font-bold text-brand-foreground shadow-sm transition-all hover:bg-brand/90"
+          >
+            Lihat jalur karier <ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </div>
     </AppShell>
   );
 }

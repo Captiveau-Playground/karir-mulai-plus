@@ -104,14 +104,21 @@ function OnboardingPage() {
                 <Sparkles className="size-3.5" /> Onboarding 60 detik
               </p>
               <h1 className="font-display text-3xl font-bold">{steps[step]}</h1>
-              <div className="mt-5 flex gap-2">
+              <p className="mt-1 font-manrope text-sm text-text-muted">
+                Langkah {step + 1} dari {steps.length} — {steps[step]}
+              </p>
+              <div className="mt-5 flex items-center gap-2">
                 {steps.map((s, i) => (
-                  <div
-                    key={s}
-                    className={`h-1.5 flex-1 rounded-full transition-colors ${
-                      i <= step ? "bg-brand" : "bg-muted"
-                    }`}
-                  />
+                  <div key={s} className="flex flex-1 items-center gap-2">
+                    <div className="h-1.5 flex-1 rounded-full transition-colors" style={{ backgroundColor: i <= step ? "var(--brand)" : "var(--muted)" }} />
+                    <span
+                      className={`hidden text-[10px] font-semibold uppercase tracking-wider sm:block ${
+                        i <= step ? "text-brand" : "text-muted-foreground"
+                      }`}
+                    >
+                      {i + 1}. {s}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
@@ -245,7 +252,13 @@ function OnboardingPage() {
                   <ArrowLeft className="size-4" /> Kembali
                 </Button>
                 {step < 2 ? (
-                  <Button onClick={() => setStep((s) => s + 1)}>
+                  <Button
+                    disabled={
+                      (step === 0 && name.trim().length < 2) ||
+                      (step === 1 && skills.length === 0)
+                    }
+                    onClick={() => setStep((s) => s + 1)}
+                  >
                     Lanjut <ArrowRight className="size-4" />
                   </Button>
                 ) : (

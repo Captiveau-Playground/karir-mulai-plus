@@ -370,14 +370,21 @@ function AdminPage() {
         <TabsContent value="gamification" className="mt-5">
           <JsonConfigTab
             title="Gamifikasi & Reward"
-            description="XP per aksi & level curve. Format: { audit, quiz, interview, roadmapItem, levelThreshold } — tersimpan ke app_config, dipakai komponen gamifikasi."
+            description="XP per aksi (audit, quiz, booking, application, coach, interview, roadmap, quest, rating) + levelThreshold — tersimpan ke app_config, langsung dipakai app."
             key="gamification.config"
             category="gamification"
             template={{
               audit: 15,
               quiz: 10,
-              interview: 5,
+              booking: 10,
+              application: 5,
+              coach: 5,
+              interview: 10,
               roadmapItem: 5,
+              roadmapComplete: 30,
+              quest: 10,
+              questAll: 30,
+              rating: 5,
               levelThreshold: 100,
             }}
           />
