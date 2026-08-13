@@ -30,7 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@karir-mulai-plus/ui/components/dropdown-menu";
 import { useDb } from "@/hooks/use-db";
-import { db, defaultProfile, levelFromXp } from "@/lib/db";
+import { db, levelFromXp } from "@/lib/db";
 import { authClient } from "@/lib/auth-client";
 import { pullFromServer } from "@/lib/api";
 import { Skeleton } from "@karir-mulai-plus/ui/components/skeleton";
@@ -54,7 +54,6 @@ const careerOs = [
 
 export function AppShell({ children, full = false }: { children: ReactNode; full?: boolean }) {
   const state = useDb();
-  const profile = state.profile ?? defaultProfile();
   const [open, setOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
 
@@ -68,16 +67,21 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
     document.documentElement.classList.toggle("dark", state.theme === "dark");
   }, [state.theme]);
 
-  const initials = profile.name
-    .split(" ")
-    .map((x) => x[0])
-    .slice(0, 2)
-    .join("");
+  // Nama tampilan: profil onboarding > session auth > fallback generik
+  const profile = state.profile;
+  const displayName = profile?.name ?? session?.user?.name ?? "";
+  const initials = displayName
+    ? displayName
+        .split(" ")
+        .map((x) => x[0])
+        .slice(0, 2)
+        .join("")
+    : "";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-bricolage text-xl font-extrabold tracking-tight text-brand-navy">
               MULAI<span className="text-brand-orange">+</span>
@@ -159,7 +163,7 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
             {!state.profile && !session && (
               <Link
                 to="/onboarding"
-                className="hidden rounded-xl bg-coral px-4 py-2 text-sm font-semibold text-coral-foreground sm:inline-flex"
+                className="hidden rounded-full bg-brand px-4 py-2 text-sm font-bold text-brand-foreground shadow-sm transition-all duration-300 hover:bg-brand/90 sm:inline-flex"
               >
                 Mulai
               </Link>
@@ -171,9 +175,11 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
             )}
             <div className="hidden text-right md:block">
               <p className="text-sm font-semibold leading-tight">
-                {session?.user.name ?? profile.name}
+                {session?.user.name ?? profile?.name ?? ""}
               </p>
-              <p className="text-xs text-muted-foreground">{profile.currentRole}</p>
+              <p className="text-xs text-muted-foreground">
+                {profile?.currentRole ?? (session ? "Anggota MULAI+" : "")}
+              </p>
             </div>
             {isPending ? (
               <Skeleton className="size-9 rounded-full" />
@@ -185,11 +191,11 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
                   .slice(0, 2)
                   .join("")}
               </div>
-            ) : (
+            ) : profile ? (
               <div className="grid size-9 place-items-center rounded-full bg-secondary text-sm font-semibold text-secondary-foreground">
                 {initials}
               </div>
-            )}
+            ) : null}
             <button
               className="grid size-9 place-items-center rounded-lg border border-border lg:hidden"
               onClick={() => setOpen((v) => !v)}

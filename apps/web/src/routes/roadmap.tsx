@@ -160,7 +160,7 @@ function RoadmapPage() {
               <Progress
                 value={pct}
                 className="h-2 flex-1"
-                indicatorClassName="bg-gradient-to-r from-brand to-coral"
+                indicatorClassName="bg-brand"
               />
               <span className="text-xs font-semibold">{pct}%</span>
             </div>

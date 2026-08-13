@@ -1,5 +1,3 @@
-import { currentUser } from "./mock-data";
-
 export type Profile = {
   id: string;
   name: string;
@@ -376,15 +374,17 @@ export const db = {
 /** Level dari total XP (100 XP per level). */
 export const levelFromXp = (xp: number) => Math.floor(xp / 100) + 1;
 
-/** Profil awal yang dipakai sebelum onboarding (seeding data mock). */
+/** Profil fallback netral — dipakai UI sebelum onboarding selesai.
+ *  Tidak lagi memakai data mock (budi santoso) — nama diambil dari
+ *  session auth saat render (lihat AppShell/dashboard). */
 export const defaultProfile = (): Profile => ({
-  id: "user123",
-  name: currentUser.name,
-  email: currentUser.email,
-  currentRole: currentUser.currentRole,
-  yearsExp: currentUser.yearsExp,
+  id: "",
+  name: "",
+  email: "",
+  currentRole: "",
+  yearsExp: 0,
   interest: "Product",
-  skills: [...currentUser.skills],
-  riasec: currentUser.assessmentScores.RIASEC,
-  onboardedAt: Date.now(),
+  skills: [],
+  riasec: "",
+  onboardedAt: 0,
 });

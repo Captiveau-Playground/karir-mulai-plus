@@ -249,10 +249,6 @@ function CvAuditPage() {
               "pointer-events-none absolute inset-0 opacity-0 transition-opacity",
               dragging && "opacity-100",
             )}
-            style={{
-              background:
-                "radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--brand) 12%, transparent), transparent 60%)",
-            }}
           />
           <div className="relative">
             <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-brand-soft text-brand transition-transform group-hover:scale-105">
@@ -520,11 +516,7 @@ function ResultView({
       {/* Hero skor */}
       <Card className="relative mb-6 overflow-hidden p-6 sm:p-8">
         <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{
-            background:
-              "radial-gradient(600px 240px at 12% -10%, color-mix(in oklab, var(--brand) 14%, transparent), transparent), radial-gradient(500px 220px at 95% 110%, color-mix(in oklab, var(--coral) 12%, transparent), transparent)",
-          }}
+          className="pointer-events-none absolute inset-0 bg-brand-soft/60"
         />
         <div className="relative grid items-center gap-8 lg:grid-cols-[auto_1fr]">
           <div className="mx-auto text-center">
@@ -619,7 +611,7 @@ function ResultView({
             <Progress
               value={estimated}
               className="h-2.5"
-              indicatorClassName="bg-gradient-to-r from-brand to-coral"
+              indicatorClassName="bg-brand"
             />
           </div>
           <p className="text-xs text-muted-foreground">

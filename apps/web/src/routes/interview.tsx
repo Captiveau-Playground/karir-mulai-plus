@@ -222,7 +222,7 @@ function InterviewPage() {
 
               <div className="mb-2 h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div
-                  className="h-full bg-gradient-to-r from-brand to-coral transition-all"
+                  className="h-full bg-brand transition-all"
                   style={{ width: `${((idx + (feedback ? 1 : 0)) / questions.length) * 100}%` }}
                 />
               </div>
@@ -255,7 +255,7 @@ function InterviewPage() {
               ) : (
                 <div className="mt-6">
                   <div className="flex items-center gap-3 rounded-2xl bg-muted/60 p-4">
-                    <div className="grid size-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                    <div className="grid size-12 shrink-0 place-items-center rounded-full bg-brand text-white">
                       <Target className="size-5" />
                     </div>
                     <div>

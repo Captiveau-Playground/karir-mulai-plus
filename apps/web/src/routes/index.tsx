@@ -185,7 +185,7 @@ function Landing() {
         <div className="pointer-events-none absolute -top-24 -right-24 h-[280px] w-[280px] rounded-full bg-brand-orange/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-[260px] w-[260px] rounded-full bg-brand-navy/5 blur-3xl" />
 
-        <div className="relative mx-auto flex max-w-7xl flex-col gap-10 px-4 py-16 md:grid md:grid-cols-2 md:items-center md:gap-12 md:px-6 md:py-24 lg:py-32">
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 py-16 md:grid md:grid-cols-2 md:items-center md:gap-12 md:px-6 md:py-24 lg:py-32">
           <div className="flex flex-col gap-6 md:gap-7">
             <span className="inline-flex items-center gap-1.5 self-start rounded-full border border-brand-orange/20 bg-brand-orange/5 px-3.5 py-1.5 font-manrope text-[11px] font-medium tracking-wide text-brand-orange">
               <span className="relative flex h-1.5 w-1.5">
@@ -208,7 +208,7 @@ function Landing() {
             <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
               <Link
                 to="/onboarding"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-brand-red px-8 py-4 font-manrope text-base font-bold text-white shadow-lg shadow-brand-red/25 transition-all duration-300 hover:scale-[1.02] hover:bg-brand-red/90 hover:shadow-xl active:scale-[0.98]"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-brand px-8 py-4 font-manrope text-base font-bold text-brand-foreground shadow-lg shadow-brand/25 transition-all duration-300 hover:scale-[1.02] hover:bg-brand/90 hover:shadow-xl active:scale-[0.98]"
               >
                 Cek skor CV gratis
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -275,7 +275,7 @@ function Landing() {
       </section>
 
       {/* CARA KERJA */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
         <div className="flex flex-col items-center gap-4 text-center">
           <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
             Cara Kerja
@@ -303,7 +303,7 @@ function Landing() {
 
       {/* FITUR */}
       <section className="border-y border-border/70 bg-[#f7f9f3] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
               Fitur
@@ -338,7 +338,7 @@ function Landing() {
       </section>
 
       {/* MARKET SIGNALS */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
         <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           <div className="flex flex-1 flex-col gap-4">
             <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
@@ -408,7 +408,7 @@ function Landing() {
 
       {/* TESTIMONI */}
       <section className="border-y border-border/70 bg-[#f7f9f3] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
               Testimoni
@@ -432,7 +432,7 @@ function Landing() {
       </section>
 
       {/* BLOG */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
         <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <span className="mb-3 inline-flex bg-brand-orange/10 px-2 py-0.5 font-manrope text-[10px] font-semibold uppercase tracking-wider text-brand-orange">
@@ -497,7 +497,7 @@ function Landing() {
 
       {/* FAQ */}
       <section className="border-t border-border/70 bg-[#f7f9f3] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex w-full flex-col gap-10 lg:flex-row lg:justify-between lg:gap-16">
             <div className="flex flex-col gap-5 lg:w-[40%]">
               <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
@@ -570,16 +570,8 @@ function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
         <div className="relative overflow-hidden rounded-[32px] bg-brand-navy p-10 md:p-14">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
-            }}
-          />
           <div className="pointer-events-none absolute -top-20 -right-20 h-60 w-60 rounded-full bg-brand-orange/10 blur-3xl" />
 
           <div className="relative flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">

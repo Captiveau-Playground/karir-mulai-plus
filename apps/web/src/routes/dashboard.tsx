@@ -23,7 +23,8 @@ import { Button } from "@karir-mulai-plus/ui/components/button";
 import { Input } from "@karir-mulai-plus/ui/components/input";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
-import { db, defaultProfile, levelFromXp, type AppState } from "@/lib/db";
+import { authClient } from "@/lib/auth-client";
+import { db, levelFromXp, type AppState } from "@/lib/db";
 import { computeMatches } from "@/lib/engine";
 import { LEADERBOARD_MOCK, OUTCOME_REPORTS } from "@/lib/engine";
 import { skillSignals } from "@/lib/mock-data";
@@ -86,16 +87,35 @@ function timeAgo(ts: number) {
 
 function Dashboard() {
   const state = useDb();
-  const profile = state.profile ?? defaultProfile();
+  const { data: session } = authClient.useSession();
+  const profile = state.profile;
 
-  const matches = computeMatches(profile);
+  const needsOnboarding = !profile;
+  const displayName = profile?.name ?? session?.user?.name ?? "Pengguna Baru";
+  const initials = displayName
+    .split(" ")
+    .map((x) => x[0])
+    .slice(0, 2)
+    .join("");
+
+  const matches = computeMatches(
+    profile ?? {
+      id: "",
+      name: displayName,
+      email: session?.user?.email ?? "",
+      currentRole: "",
+      yearsExp: 0,
+      interest: "Product",
+      skills: [],
+      riasec: "",
+      onboardedAt: 0,
+    },
+  );
   const topPath = matches[0];
   const latestAudit = state.audits[0];
   const upcomingBookings = state.bookings.filter((b) => b.status === "booked");
   const demandSkills = skillSignals.slice(0, 4);
-  const firstName = profile.name.split(" ")[0];
-
-  const needsOnboarding = !state.profile;
+  const firstName = displayName.split(" ")[0];
 
   const shareText = latestAudit
     ? `Skor CV saya ${latestAudit.score}/100 💪 Cek skor CV kamu gratis di MULAI+ Career Compass!`
@@ -103,14 +123,16 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <section className="mb-8 overflow-hidden rounded-3xl border border-border bg-card p-8 sm:p-12">
-        <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold">
-          <Sparkles className="size-3.5" /> Karier kamu, dibaca lewat data
+      <section className="mb-8 overflow-hidden rounded-3xl bg-brand-deep p-8 text-white sm:p-12">
+        <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-coral/20 blur-3xl" />
+        <div className="relative">
+        <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
+          <Sparkles className="size-3.5 text-coral" /> Karier kamu, dibaca lewat data
         </p>
         <h1 className="max-w-2xl font-display text-4xl font-bold leading-tight sm:text-5xl">
           {needsOnboarding ? "Siap mulai?" : `Halo, ${firstName} 👋`}
         </h1>
-        <p className="mt-4 max-w-xl text-muted-foreground">
+        <p className="mt-4 max-w-xl text-white/80">
           {needsOnboarding
             ? "Lengkapi profil 60 detik dan dapatkan rekomendasi yang benar-benar untuk kamu."
             : `Berdasarkan profil, asesmen, dan sinyal pasar kerja, ini langkah paling berdampak untuk minggu ini.`}
@@ -119,7 +141,7 @@ function Dashboard() {
           {needsOnboarding ? (
             <Link
               to="/onboarding"
-              className="inline-flex items-center gap-2 rounded-xl bg-coral px-5 py-3 text-sm font-semibold text-coral-foreground card-hover"
+              className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-brand-deep card-hover"
             >
               Mulai onboarding <ArrowRight className="size-4" />
             </Link>
@@ -134,12 +156,13 @@ function Dashboard() {
               </Link>
               <Link
                 to="/career"
-                className="inline-flex items-center gap-2 rounded-xl border border-border px-5 py-3 text-sm font-semibold card-hover"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/20 px-5 py-3 text-sm font-semibold text-white card-hover hover:bg-white/10"
               >
                 Lihat rekomendasi karier
               </Link>
             </>
           )}
+        </div>
         </div>
       </section>
 
@@ -147,16 +170,16 @@ function Dashboard() {
         <Card className="p-6">
           <div className="flex items-center gap-3">
             <div className="grid size-12 place-items-center rounded-2xl bg-secondary font-display text-lg font-bold">
-              {profile.name
-                .split(" ")
-                .map((x) => x[0])
-                .slice(0, 2)
-                .join("")}
+              {initials}
             </div>
             <div>
-              <p className="font-semibold">{profile.name}</p>
+              <p className="font-semibold">{displayName}</p>
               <p className="text-sm text-muted-foreground">
-                {profile.currentRole} · {profile.yearsExp} thn
+                {profile?.currentRole
+                  ? `${profile.currentRole} · ${profile.yearsExp} thn`
+                  : needsOnboarding
+                    ? "Selesaikan onboarding untuk profil lengkap"
+                    : ""}
               </p>
             </div>
           </div>
@@ -179,15 +202,15 @@ function Dashboard() {
             <Progress value={latestAudit?.score ?? 0} />
           </div>
           <div className="mt-5 flex flex-wrap gap-2">
-            <Badge variant="secondary">RIASEC · {profile.riasec}</Badge>
-            <Badge variant="secondary">{profile.interest}</Badge>
+            <Badge variant="secondary">RIASEC · {profile?.riasec ?? "—"}</Badge>
+            <Badge variant="secondary">{profile?.interest ?? "—"}</Badge>
           </div>
           <div className="mt-5 space-y-2 border-t border-border pt-4">
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Skill
             </p>
             <div className="flex flex-wrap gap-2">
-              {profile.skills.map((s) => {
+              {(profile?.skills ?? []).map((s) => {
                 const verified = state.verifiedSkills.find(
                   (v) => v.skill.toLowerCase() === s.toLowerCase(),
                 );

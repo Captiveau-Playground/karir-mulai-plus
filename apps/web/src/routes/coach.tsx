@@ -117,7 +117,7 @@ function CoachPage() {
         {/* Chat */}
         <Card className="flex h-[70vh] min-h-[480px] flex-col overflow-hidden lg:col-span-2">
           <div className="flex items-center gap-3 border-b border-border bg-muted/40 px-5 py-3">
-            <div className="grid size-9 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+            <div className="grid size-9 place-items-center rounded-full bg-brand text-white">
               <Bot className="size-5" />
             </div>
             <div>
@@ -142,7 +142,7 @@ function CoachPage() {
             {state.coach.map((m, i) => (
               <div key={i} className={cn("flex gap-3", m.role === "user" && "justify-end")}>
                 {m.role === "assistant" && (
-                  <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                  <div className="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white">
                     <Bot className="size-4" />
                   </div>
                 )}
@@ -166,7 +166,7 @@ function CoachPage() {
 
             {typing && (
               <div className="flex gap-3">
-                <div className="grid size-8 shrink-0 place-items-center rounded-full bg-gradient-to-br from-brand to-coral text-white">
+                <div className="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white">
                   <Bot className="size-4" />
                 </div>
                 <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-border bg-card px-4 py-3">

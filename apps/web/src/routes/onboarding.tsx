@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@karir-mulai-plus/ui/components/select";
 import { db } from "@/lib/db";
+import { authClient } from "@/lib/auth-client";
 import { RIASEC_QUESTIONS, scoreRiasec } from "@/lib/engine";
 import { pushProfile } from "@/lib/api";
 import { skillOptions } from "@/lib/mock-data";
@@ -45,10 +46,11 @@ const INTERESTS = ["Product", "Engineering", "Design", "Data", "Business", "Mark
 
 function OnboardingPage() {
   const nav = useNavigate();
+  const { data: session } = authClient.useSession();
   const [step, setStep] = useState(0);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(session?.user?.name ?? "");
+  const [email, setEmail] = useState(session?.user?.email ?? "");
   const [currentRole, setCurrentRole] = useState(ROLES[0]!);
   const [years, setYears] = useState([0]);
   const [gradYear, setGradYear] = useState("");
