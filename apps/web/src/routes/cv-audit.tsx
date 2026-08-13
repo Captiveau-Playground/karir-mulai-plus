@@ -19,18 +19,18 @@ import {
   Wand2,
 } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Textarea } from "@my-better-t-app/ui/components/textarea";
-import { Progress } from "@my-better-t-app/ui/components/progress";
-import { Badge } from "@my-better-t-app/ui/components/badge";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
+import { Progress } from "@karir-mulai-plus/ui/components/progress";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
 import { db } from "@/lib/db";

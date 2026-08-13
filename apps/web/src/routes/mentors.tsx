@@ -3,27 +3,27 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { CalendarDays, Search, Star } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
-import { Badge } from "@my-better-t-app/ui/components/badge";
-import { Textarea } from "@my-better-t-app/ui/components/textarea";
-import { Label } from "@my-better-t-app/ui/components/label";
-import { Slider } from "@my-better-t-app/ui/components/slider";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
+import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
+import { Label } from "@karir-mulai-plus/ui/components/label";
+import { Slider } from "@karir-mulai-plus/ui/components/slider";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@my-better-t-app/ui/components/dialog";
+} from "@karir-mulai-plus/ui/components/dialog";
 import { useDb } from "@/hooks/use-db";
 import { pushBooking } from "@/lib/api";
 import { db } from "@/lib/db";

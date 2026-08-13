@@ -1,19 +1,27 @@
 # ============================================================
 # Server Hono (oRPC + Better Auth) — run lokal / deploy Cloudflare
 # Lokal:  wrangler dev --port 3000   (D1 local, migrasi di bawah)
-# Migrasi: wrangler d1 execute my-better-t-app-db --local --file=../../packages/db/src/migrations/0000_sparkling_black_bolt.sql
+# Migrasi: wrangler d1 migrations apply karir-mulai-plus-db --local
 # ============================================================
 name = "mulai-plus-server"
 main = "src/index.ts"
-compatibility_date = "2026-08-12"
+compatibility_date = "2026-07-29"
 compatibility_flags = ["nodejs_compat"]
+
+# Custom domain (mulaiplus.id sudah active di Cloudflare)
+workers_dev = true
+routes = [
+  { pattern = "api.mulaiplus.id", custom_domain = true },
+]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "my-better-t-app-db"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_name = "karir-mulai-plus-db"
+database_id = "3e0a00e7-5156-4e77-9f95-e33ddd2a9c35"
+migrations_dir = "../../packages/db/src/migrations"
 
+# Secret (BETTER_AUTH_SECRET) jangan ditaruh di file ini — pakai `wrangler secret put`
+# Nilai produksi (untuk deploy). Dev lokal memakai .dev.vars
 [vars]
-CORS_ORIGIN = "http://localhost:3001"
-BETTER_AUTH_URL = "http://localhost:3000"
-BETTER_AUTH_SECRET = "qATeULUFhAvRYqMMs8oKOJcaIeDeGE05"
+CORS_ORIGIN = "https://app.mulaiplus.id"
+BETTER_AUTH_URL = "https://api.mulaiplus.id"

@@ -2,18 +2,18 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Check, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
-import { Label } from "@my-better-t-app/ui/components/label";
-import { Slider } from "@my-better-t-app/ui/components/slider";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
+import { Label } from "@karir-mulai-plus/ui/components/label";
+import { Slider } from "@karir-mulai-plus/ui/components/slider";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { db } from "@/lib/db";
 import { RIASEC_QUESTIONS, scoreRiasec } from "@/lib/engine";
 import { pushProfile } from "@/lib/api";

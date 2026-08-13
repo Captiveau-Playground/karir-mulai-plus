@@ -9,10 +9,10 @@
     "dev": "wrangler dev --port 3000"
   },
   "dependencies": {
-    "@my-better-t-app/api": "workspace:*",
-    "@my-better-t-app/auth": "workspace:*",
-    "@my-better-t-app/db": "workspace:*",
-    "@my-better-t-app/env": "workspace:*",
+    "@karir-mulai-plus/api": "workspace:*",
+    "@karir-mulai-plus/auth": "workspace:*",
+    "@karir-mulai-plus/db": "workspace:*",
+    "@karir-mulai-plus/env": "workspace:*",
     "@orpc/openapi": "catalog:",
     "@orpc/server": "catalog:",
     "@orpc/zod": "catalog:",
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
-    "@my-better-t-app/config": "workspace:*",
+    "@karir-mulai-plus/config": "workspace:*",
     "@types/node": "catalog:",
     "alchemy": "catalog:",
     "tsdown": "^0.22.14",

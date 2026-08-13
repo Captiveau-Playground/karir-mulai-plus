@@ -8,7 +8,7 @@ config({ path: "./.env" });
 config({ path: "../../apps/web/.env" });
 config({ path: "../../apps/server/.env" });
 
-const app = await alchemy("my-better-t-app");
+const app = await alchemy("karir-mulai-plus");
 
 const db = await D1Database("database", {
   migrationsDir: "../../packages/db/src/migrations",
@@ -19,6 +19,7 @@ export const server = await Worker("server", {
   entrypoint: "src/index.ts",
   compatibility: "node",
   url: true,
+  domains: ["api.mulaiplus.id"],
   bindings: {
     DB: db,
     CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
@@ -32,6 +33,7 @@ export const server = await Worker("server", {
 
 export const web = await TanStackStart("web", {
   cwd: "../../apps/web",
+  domains: ["app.mulaiplus.id"],
   bindings: {
     VITE_SERVER_URL: server.url!,
     DB: db,

@@ -12,11 +12,11 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@my-better-t-app/ui/components",
-    "utils": "@my-better-t-app/ui/lib/utils",
-    "hooks": "@my-better-t-app/ui/hooks",
-    "lib": "@my-better-t-app/ui/lib",
-    "ui": "@my-better-t-app/ui/components"
+    "components": "@karir-mulai-plus/ui/components",
+    "utils": "@karir-mulai-plus/ui/lib/utils",
+    "hooks": "@karir-mulai-plus/ui/hooks",
+    "lib": "@karir-mulai-plus/ui/lib",
+    "ui": "@karir-mulai-plus/ui/components"
   },
   "menuColor": "default",
   "menuAccent": "subtle",

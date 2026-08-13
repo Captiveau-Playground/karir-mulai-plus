@@ -1,5 +1,5 @@
 {
-  "name": "@my-better-t-app/db",
+  "name": "@karir-mulai-plus/db",
   "type": "module",
   "exports": {
     ".": {
@@ -14,14 +14,14 @@
   },
   "dependencies": {
     "@libsql/client": "0.17.4",
-    "@my-better-t-app/env": "workspace:*",
+    "@karir-mulai-plus/env": "workspace:*",
     "dotenv": "catalog:",
     "drizzle-orm": "^0.45.2",
     "libsql": "0.5.29",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@my-better-t-app/config": "workspace:*",
+    "@karir-mulai-plus/config": "workspace:*",
     "drizzle-kit": "^0.31.10",
     "typescript": "catalog:"
   }

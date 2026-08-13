@@ -13,8 +13,8 @@
   "iconLibrary": "lucide",
   "aliases": {
     "components": "@/components",
-    "utils": "@my-better-t-app/ui/lib/utils",
-    "ui": "@my-better-t-app/ui/components",
+    "utils": "@karir-mulai-plus/ui/lib/utils",
+    "ui": "@karir-mulai-plus/ui/components",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

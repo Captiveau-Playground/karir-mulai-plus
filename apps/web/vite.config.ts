@@ -1,23 +1,11 @@
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
+import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import alchemy from "alchemy/cloudflare/tanstack-start";
 import { defineConfig } from "vite";
-const alchemyConfigPath = fileURLToPath(
-  new URL("./.alchemy/local/wrangler.jsonc", import.meta.url),
-);
-const shouldUseAlchemy = existsSync(alchemyConfigPath);
-const cloudflareWorkersShimPath = fileURLToPath(
-  new URL("../../packages/env/src/cloudflare-local.ts", import.meta.url),
-);
-const cloudflareWorkersAlias: Record<string, string> = shouldUseAlchemy
-  ? {}
-  : {
-      "cloudflare:workers": cloudflareWorkersShimPath,
-    };
 
 export default defineConfig({
   server: {
@@ -25,12 +13,11 @@ export default defineConfig({
   },
   resolve: {
     tsconfigPaths: true,
-    alias: cloudflareWorkersAlias,
   },
   plugins: [
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),
-    ...(shouldUseAlchemy ? [alchemy({ configPath: alchemyConfigPath })] : []),
   ],
 });

@@ -1,1 +1,1 @@
-export { cn } from "@my-better-t-app/ui/lib/utils";
+export { cn } from "@karir-mulai-plus/ui/lib/utils";

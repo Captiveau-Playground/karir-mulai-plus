@@ -11,24 +11,24 @@ import {
   XCircle,
 } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
-import { Label } from "@my-better-t-app/ui/components/label";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
+import { Label } from "@karir-mulai-plus/ui/components/label";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@my-better-t-app/ui/components/dialog";
+} from "@karir-mulai-plus/ui/components/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
 import { pushApplication } from "@/lib/api";
 import { db, type Application, type ApplicationStage } from "@/lib/db";

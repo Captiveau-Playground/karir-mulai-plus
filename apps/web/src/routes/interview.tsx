@@ -3,18 +3,18 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { BookOpen, CheckCircle2, MessageSquare, Sparkles, Target, Trophy } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Textarea } from "@my-better-t-app/ui/components/textarea";
-import { Badge } from "@my-better-t-app/ui/components/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@my-better-t-app/ui/components/tabs";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@karir-mulai-plus/ui/components/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
 import { db } from "@/lib/db";
 import {

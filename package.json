@@ -1,5 +1,5 @@
 {
-  "name": "my-better-t-app",
+  "name": "karir-mulai-plus",
   "private": true,
   "workspaces": {
     "packages": [
@@ -37,19 +37,19 @@
     "check-types": "turbo run check-types",
     "dev:web": "turbo run dev -F web",
     "dev:server": "turbo run dev -F server",
-    "db:generate": "turbo run db:generate -F @my-better-t-app/db",
-    "deploy": "turbo run deploy -F @my-better-t-app/infra",
-    "destroy": "turbo run destroy -F @my-better-t-app/infra",
+    "db:generate": "turbo run db:generate -F @karir-mulai-plus/db",
+    "deploy": "cd apps/server && bunx wrangler deploy && cd ../web && bun run build && bunx wrangler deploy",
+    "destroy": "turbo run destroy -F @karir-mulai-plus/infra",
     "dev:full": "turbo run dev"
   },
   "dependencies": {
-    "@my-better-t-app/env": "workspace:*",
+    "@karir-mulai-plus/env": "workspace:*",
     "dotenv": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "catalog:",
-    "@my-better-t-app/config": "workspace:*",
+    "@karir-mulai-plus/config": "workspace:*",
     "@types/node": "catalog:",
     "turbo": "^2.10.7",
     "typescript": "catalog:"

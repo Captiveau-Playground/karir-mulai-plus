@@ -1,4 +1,4 @@
-import { Toaster } from "@my-better-t-app/ui/components/sonner";
+import { Toaster } from "@karir-mulai-plus/ui/components/sonner";
 import type { QueryClient } from "@tanstack/react-query";
 import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 
@@ -16,13 +16,13 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MULAI+ — Cek Skor CV Gratis & Temukan Jalur Kariermu" },
+      { title: "MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa | MULAI+" },
       {
         name: "description",
         content:
-          "Audit CV berbasis AI, rekomendasi jalur karier, sinyal pasar kerja Indonesia, dan mentor dalam satu platform.",
+          "MULAI+ membimbingmu memilih universitas dan jurusan yang tepat. Program mentoring terstruktur dengan mentor berpengalaman, bimbingan beasiswa, dan persiapan PTN.",
       },
-      { name: "theme-color", content: "#0e7c86" },
+      { name: "theme-color", content: "#1a1f6d" },
       { name: "mobile-web-app-capable", content: "yes" },
     ],
     links: [
@@ -34,7 +34,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap",
       },
     ],
   }),

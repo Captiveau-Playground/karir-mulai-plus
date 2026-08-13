@@ -1,11 +1,11 @@
 {
-  "extends": "@my-better-t-app/config/tsconfig.base.json",
+  "extends": "@karir-mulai-plus/config/tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": [],
     "paths": {
-      "@my-better-t-app/ui/*": ["./src/*"]
+      "@karir-mulai-plus/ui/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],

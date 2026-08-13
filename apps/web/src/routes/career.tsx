@@ -3,21 +3,21 @@ import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Bookmark, FileSearch, Minus, TrendingUp, Wand2, X } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Badge } from "@my-better-t-app/ui/components/badge";
-import { Progress } from "@my-better-t-app/ui/components/progress";
-import { Slider } from "@my-better-t-app/ui/components/slider";
-import { Textarea } from "@my-better-t-app/ui/components/textarea";
-import { Label } from "@my-better-t-app/ui/components/label";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
+import { Progress } from "@karir-mulai-plus/ui/components/progress";
+import { Slider } from "@karir-mulai-plus/ui/components/slider";
+import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
+import { Label } from "@karir-mulai-plus/ui/components/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@my-better-t-app/ui/components/dialog";
+} from "@karir-mulai-plus/ui/components/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@karir-mulai-plus/ui/components/dialog";
 import { useDb } from "@/hooks/use-db";
 import { db } from "@/lib/db";
 import { computeMatches, correlateCvToPaths, type CvPathFit } from "@/lib/engine";

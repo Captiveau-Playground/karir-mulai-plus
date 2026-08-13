@@ -1,7 +1,7 @@
-import { createContext } from "@my-better-t-app/api/context";
-import { appRouter } from "@my-better-t-app/api/routers/index";
-import { createAuth } from "@my-better-t-app/auth";
-import { env } from "@my-better-t-app/env/server";
+import { createContext } from "@karir-mulai-plus/api/context";
+import { appRouter } from "@karir-mulai-plus/api/routers/index";
+import { createAuth } from "@karir-mulai-plus/auth";
+import { env } from "@karir-mulai-plus/env/server";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { onError } from "@orpc/server";

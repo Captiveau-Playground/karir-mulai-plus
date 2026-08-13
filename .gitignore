@@ -54,3 +54,10 @@ coverage
 .cache
 tmp
 temp
+
+# wrangler local dev
+.dev.vars
+
+# wrangler / CF vite plugin state
+.wrangler
+.cloudflare

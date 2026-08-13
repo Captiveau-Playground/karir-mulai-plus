@@ -1,4 +1,4 @@
-import { createDb } from "@my-better-t-app/db";
+import { createDb } from "@karir-mulai-plus/db";
 import {
   application,
   audit,
@@ -8,7 +8,7 @@ import {
   roadmapItem,
   userStat,
   verifiedSkill,
-} from "@my-better-t-app/db/schema/career";
+} from "@karir-mulai-plus/db/schema/career";
 import { desc, eq } from "drizzle-orm";
 import { z } from "zod";
 

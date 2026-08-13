@@ -4,19 +4,19 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { ClipboardCopy, Plus, Printer, Sparkles, Trash2, Wand2 } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
-import { Label } from "@my-better-t-app/ui/components/label";
-import { Textarea } from "@my-better-t-app/ui/components/textarea";
-import { Badge } from "@my-better-t-app/ui/components/badge";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
+import { Label } from "@karir-mulai-plus/ui/components/label";
+import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { useDb, useHydrated } from "@/hooks/use-db";
 import { db, defaultProfile, type CvDraft } from "@/lib/db";
 import { ROLE_KEYWORDS, ROLE_OPTIONS } from "@/lib/engine";

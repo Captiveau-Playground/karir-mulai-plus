@@ -18,7 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
-import { cn } from "@my-better-t-app/ui/lib/utils";
+import { cn } from "@karir-mulai-plus/ui/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,12 +27,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@my-better-t-app/ui/components/dropdown-menu";
+} from "@karir-mulai-plus/ui/components/dropdown-menu";
 import { useDb } from "@/hooks/use-db";
 import { db, defaultProfile, levelFromXp } from "@/lib/db";
 import { authClient } from "@/lib/auth-client";
 import { pullFromServer } from "@/lib/api";
-import { Skeleton } from "@my-better-t-app/ui/components/skeleton";
+import { Skeleton } from "@karir-mulai-plus/ui/components/skeleton";
 
 const nav = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -228,7 +228,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
 
       <footer className="border-t border-border/70 py-8 text-center text-xs text-muted-foreground">
-        MULAI+ Career Acceleration — prototype dengan data simulasi pasar kerja Indonesia.
+        MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa.
       </footer>
     </div>
   );

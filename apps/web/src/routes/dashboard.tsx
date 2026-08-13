@@ -16,11 +16,11 @@ import {
   Trophy,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Progress } from "@my-better-t-app/ui/components/progress";
-import { Badge } from "@my-better-t-app/ui/components/badge";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Progress } from "@karir-mulai-plus/ui/components/progress";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
 import { db, defaultProfile, levelFromXp, type AppState } from "@/lib/db";

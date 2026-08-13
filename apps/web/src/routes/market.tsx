@@ -3,19 +3,19 @@ import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Download, Search, Share2, TrendingDown, TrendingUp } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/app-shell";
-import { Card } from "@my-better-t-app/ui/components/card";
-import { Button } from "@my-better-t-app/ui/components/button";
-import { Input } from "@my-better-t-app/ui/components/input";
-import { Badge } from "@my-better-t-app/ui/components/badge";
-import { Progress } from "@my-better-t-app/ui/components/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@my-better-t-app/ui/components/tabs";
+import { Card } from "@karir-mulai-plus/ui/components/card";
+import { Button } from "@karir-mulai-plus/ui/components/button";
+import { Input } from "@karir-mulai-plus/ui/components/input";
+import { Badge } from "@karir-mulai-plus/ui/components/badge";
+import { Progress } from "@karir-mulai-plus/ui/components/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@karir-mulai-plus/ui/components/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@my-better-t-app/ui/components/select";
+} from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
 import { db } from "@/lib/db";
 import { marketShareText, marketUpdatedAt } from "@/lib/engine";
