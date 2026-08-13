@@ -16,6 +16,7 @@ import {
 } from "@karir-mulai-plus/ui/components/select";
 import { db } from "@/lib/db";
 import { authClient } from "@/lib/auth-client";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { RIASEC_QUESTIONS, scoreRiasec } from "@/lib/engine";
 import { pushProfile } from "@/lib/api";
 import { skillOptions } from "@/lib/mock-data";
@@ -47,6 +48,7 @@ const INTERESTS = ["Product", "Engineering", "Design", "Data", "Business", "Mark
 function OnboardingPage() {
   const nav = useNavigate();
   const { data: session } = authClient.useSession();
+  const riasecQuestions = useConfigValue("master.riasecQuestions", RIASEC_QUESTIONS);
   const [step, setStep] = useState(0);
 
   const [name, setName] = useState(session?.user?.name ?? "");
@@ -215,7 +217,7 @@ function OnboardingPage() {
                     Pilih yang lebih mendekati kamu di tiap pasangan. Jawaban ini memberi kode
                     kepribadian (RIASEC) yang ikut menentukan rekomendasi jalur karier.
                   </p>
-                  {RIASEC_QUESTIONS.map((q, i) => (
+                  {riasecQuestions.map((q, i) => (
                     <div key={i} className="grid gap-2 sm:grid-cols-2">
                       {[
                         { label: q.a, code: q.aCode },
@@ -248,7 +250,7 @@ function OnboardingPage() {
                   </Button>
                 ) : (
                   <Button
-                    disabled={answers.length < RIASEC_QUESTIONS.length}
+                    disabled={answers.length < riasecQuestions.length}
                     onClick={finish}
                     className="bg-coral text-coral-foreground"
                   >

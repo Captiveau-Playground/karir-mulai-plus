@@ -53,7 +53,7 @@ export default function SignInForm({ onSwitchToSignUp }: { onSwitchToSignUp: () 
   }
 
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+    <div className="rounded-3xl border border-border bg-card p-6 shadow-sm md:p-8">
       <form
         onSubmit={(e) => {
           e.preventDefault();

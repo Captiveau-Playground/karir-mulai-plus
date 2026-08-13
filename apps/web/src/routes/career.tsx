@@ -21,7 +21,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@karir-mulai-p
 import { useDb } from "@/hooks/use-db";
 import { db } from "@/lib/db";
 import { computeMatches, correlateCvToPaths, type CvPathFit } from "@/lib/engine";
-import { careerPaths, skillOptions, type CareerPath } from "@/lib/mock-data";
+import { useConfigValue } from "@/hooks/use-server-data";
+import { careerPaths as careerPathsDefault, skillOptions, type CareerPath } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/career")({
   head: () => ({
@@ -49,6 +50,7 @@ const INTERESTS = ["Product", "Engineering", "Design", "Data", "Business", "Mark
 
 function CareerPage() {
   const state = useDb();
+  const careerPaths = useConfigValue<CareerPath[]>("career.paths", careerPathsDefault);
   const [manualText, setManualText] = useState<string | null>(null);
   const [cvChecked, setCvChecked] = useState<CvPathFit[] | null>(null);
 

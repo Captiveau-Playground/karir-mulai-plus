@@ -8,6 +8,7 @@ import { Button } from "@karir-mulai-plus/ui/components/button";
 import { Progress } from "@karir-mulai-plus/ui/components/progress";
 import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 import { SKILL_QUIZZES, type Quiz } from "@/lib/engine";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,7 @@ type Phase =
 
 function SkillsPage() {
   const state = useDb();
+  const quizzes = useConfigValue<Quiz[]>("master.skillQuizzes", SKILL_QUIZZES);
   const [phase, setPhase] = useState<Phase>({ mode: "list" });
 
   const verifiedCount = state.verifiedSkills.filter((v) => v.score >= 70).length;
@@ -165,7 +167,7 @@ function SkillsPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {SKILL_QUIZZES.map((quiz) => {
+        {quizzes.map((quiz) => {
           const verified = state.verifiedSkills.find((v) => v.skill === quiz.skill);
           const passed = verified && verified.score >= 70;
           return (

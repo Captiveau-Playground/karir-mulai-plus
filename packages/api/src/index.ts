@@ -24,7 +24,20 @@ const requireAdmin = o.middleware(async ({ context, next }) => {
   const role = context.session.user.role;
   if (role !== "admin") {
     throw new ORPCError("FORBIDDEN", {
-      message: "Akses hanya untuk admin",
+      message: "Akses hanya untuk superadmin",
+    });
+  }
+  return next({ context });
+});
+
+const requireManager = o.middleware(async ({ context, next }) => {
+  if (!context.session?.user) {
+    throw new ORPCError("UNAUTHORIZED");
+  }
+  const role = context.session.user.role;
+  if (role !== "admin" && role !== "manager") {
+    throw new ORPCError("FORBIDDEN", {
+      message: "Akses hanya untuk manager / superadmin",
     });
   }
   return next({ context });
@@ -32,3 +45,4 @@ const requireAdmin = o.middleware(async ({ context, next }) => {
 
 export const protectedProcedure = publicProcedure.use(requireAuth);
 export const adminProcedure = publicProcedure.use(requireAdmin);
+export const managerProcedure = publicProcedure.use(requireManager);

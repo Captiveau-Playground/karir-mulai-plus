@@ -45,12 +45,12 @@ export const adminRouter = {
       return { users: rows, total, page: input.page, limit: input.limit };
     }),
 
-  /** Update role user (mis. jadikan admin / turunkan). */
+  /** Update role user (mis. jadikan manager / superadmin / turunkan). */
   updateRole: adminProcedure
     .input(
       z.object({
         userId: z.string(),
-        role: z.enum(["user", "admin"]),
+        role: z.enum(["user", "manager", "admin"]),
       }),
     )
     .handler(async ({ input }) => {

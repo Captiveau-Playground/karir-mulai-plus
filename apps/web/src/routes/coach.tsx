@@ -8,6 +8,7 @@ import { Textarea } from "@karir-mulai-plus/ui/components/textarea";
 import { Badge } from "@karir-mulai-plus/ui/components/badge";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db, defaultProfile, levelFromXp } from "@/lib/db";
 import { coachReply, computeMatches, type CoachReply } from "@/lib/engine";
 import { shareIntents } from "@/lib/share";
@@ -35,6 +36,7 @@ const STARTERS = [
 
 function CoachPage() {
   const state = useDb();
+  const starters = useConfigValue<string[]>("coach.starters", STARTERS);
   const profile = state.profile ?? defaultProfile();
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -104,7 +106,7 @@ function CoachPage() {
               disabled={state.coach.length === 0}
               onClick={() => {
                 db.clearCoach();
-                setChips(STARTERS.map((label) => ({ label, to: "/coach" })));
+                setChips(starters.map((label) => ({ label, to: "/coach" })));
               }}
             >
               <Eraser className="size-4" /> Mulai ulang

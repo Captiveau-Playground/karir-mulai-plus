@@ -126,12 +126,12 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
                       <LineChart className="size-4 text-brand" /> Sinyal pasar
                     </span>
                   </DropdownMenuItem>
-                  {session?.user?.role === "admin" && (
+                  {(session?.user?.role === "admin" || session?.user?.role === "manager") && (
                     <>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem render={<Link to="/admin" />}>
                         <span className="flex items-center gap-2">
-                          <ShieldCheck className="size-4 text-brand-orange" /> Admin Panel
+                          <ShieldCheck className="size-4 text-brand-orange" /> Backoffice
                         </span>
                       </DropdownMenuItem>
                     </>

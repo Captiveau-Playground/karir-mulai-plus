@@ -15,6 +15,7 @@ import {
   Users,
 } from "lucide-react";
 import { AppShell } from "@/components/app-shell";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 
 export const Route = createFileRoute("/")({
@@ -168,6 +169,12 @@ function Landing() {
   const search = useSearch({ from: "/" });
   const ref = (search as { ref?: string }).ref;
   const [openFaq, setOpenFaq] = useState(0);
+  const heroStats = useConfigValue<{ value: string; label: string }[]>("landing.heroStats", HERO_STATS);
+  const faqItems = useConfigValue<{ q: string; a: string }[]>("landing.faq", FAQ);
+  const ctaConfig = useConfigValue<{ title: string; subtitle?: string; button?: string }>(
+    "landing.cta",
+    { title: "Siap Tahu Arah Kariermu?", subtitle: "Gratis, kurang dari 2 menit, dan hasilnya langsung bisa kamu pakai.", button: "Mulai sekarang — gratis" },
+  );
 
   useEffect(() => {
     if (ref && ref.length >= 4) {
@@ -181,7 +188,7 @@ function Landing() {
   return (
     <AppShell full>
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-border/70 bg-white">
+      <section className="relative overflow-hidden border-b border-border/70 bg-background">
         <div className="pointer-events-none absolute -top-24 -right-24 h-[280px] w-[280px] rounded-full bg-brand-orange/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-20 -left-20 h-[260px] w-[260px] rounded-full bg-brand-navy/5 blur-3xl" />
 
@@ -223,7 +230,7 @@ function Landing() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2 pt-2 md:gap-3">
-              {HERO_STATS.map((s) => (
+              {heroStats.map((s) => (
                 <div key={s.label} className="flex items-center gap-2 rounded-full bg-brand-navy/5 px-3.5 py-1.5 font-manrope text-xs text-text-muted md:px-5 md:py-2 md:text-sm">
                   <span className="font-semibold text-brand-navy">{s.value}</span>
                   <span className="text-text-muted/60">{s.label}</span>
@@ -290,7 +297,7 @@ function Landing() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {STEPS.map((s) => (
-            <div key={s.title} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+            <div key={s.title} className="rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
               <span className="grid size-11 place-items-center rounded-xl bg-brand-navy/5">
                 <s.icon className="size-5 text-brand-navy" />
               </span>
@@ -302,7 +309,7 @@ function Landing() {
       </section>
 
       {/* FITUR */}
-      <section className="border-y border-border/70 bg-[#f7f9f3] py-16 md:py-20">
+      <section className="border-y border-border/70 bg-muted py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
@@ -320,7 +327,7 @@ function Landing() {
           <div className="mt-10 grid gap-5 sm:grid-cols-2">
             {FEATURES.map((f) => (
               <Link key={f.title} to={f.to}>
-                <div className="group h-full rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md">
+                <div className="group h-full rounded-2xl border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md">
                   <span className="grid size-11 place-items-center rounded-xl bg-brand-navy/5">
                     <f.icon className="size-5 text-brand-navy" />
                   </span>
@@ -352,7 +359,7 @@ function Landing() {
               berkala.
             </p>
             <form
-              className="relative z-10 mt-2 flex max-w-md items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm transition-all sm:gap-3 sm:px-5 sm:py-3.5"
+              className="relative z-10 mt-2 flex max-w-md items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 shadow-sm transition-all sm:gap-3 sm:px-5 sm:py-3.5"
               onSubmit={(e) => {
                 e.preventDefault();
                 window.location.href = "/market";
@@ -388,7 +395,7 @@ function Landing() {
               <Link
                 key={l.label}
                 to="/market"
-                className="group flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
+                className="group flex items-center justify-between rounded-2xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
               >
                 <div className="flex items-center gap-3">
                   <span className="grid size-10 place-items-center rounded-xl bg-brand-navy/5">
@@ -407,7 +414,7 @@ function Landing() {
       </section>
 
       {/* TESTIMONI */}
-      <section className="border-y border-border/70 bg-[#f7f9f3] py-16 md:py-20">
+      <section className="border-y border-border/70 bg-muted py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex flex-col items-center gap-4 text-center">
             <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
@@ -419,7 +426,7 @@ function Landing() {
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {TESTIMONIALS.map((t) => (
-              <figure key={t.name} className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+              <figure key={t.name} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
                 <CheckCircle2 className="size-5 text-success" />
                 <blockquote className="mt-3 font-manrope text-sm leading-relaxed">"{t.text}"</blockquote>
                 <figcaption className="mt-4 font-manrope text-xs font-semibold text-text-muted">
@@ -459,7 +466,7 @@ function Landing() {
             <a
               key={post.title}
               href={post.href}
-              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-orange/20 hover:shadow-md"
             >
               <div className="relative aspect-[16/10] overflow-hidden bg-brand-navy/[0.04]">
                 <img
@@ -496,7 +503,7 @@ function Landing() {
       </section>
 
       {/* FAQ */}
-      <section className="border-t border-border/70 bg-[#f7f9f3] py-16 md:py-20">
+      <section className="border-t border-border/70 bg-muted py-16 md:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="flex w-full flex-col gap-10 lg:flex-row lg:justify-between lg:gap-16">
             <div className="flex flex-col gap-5 lg:w-[40%]">
@@ -509,11 +516,11 @@ function Landing() {
             </div>
 
             <div className="flex w-full flex-col gap-3 lg:w-[60%]">
-              {FAQ.map((f, i) => (
+              {faqItems.map((f, i) => (
                 <div
                   key={f.q}
                   className={`rounded-xl px-6 py-5 shadow-sm transition-colors ${
-                    openFaq === i ? "bg-brand-navy" : "bg-white hover:border-brand-orange/20"
+                    openFaq === i ? "bg-brand-navy" : "bg-card hover:border-brand-orange/20"
                   }`}
                 >
                   <button
@@ -577,17 +584,17 @@ function Landing() {
           <div className="relative flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="max-w-xl">
               <h2 className="font-bricolage text-3xl font-bold leading-tight text-white md:text-4xl lg:text-5xl">
-                Siap Tahu <span className="text-brand-orange">Arah Kariermu</span>?
+                {ctaConfig.title ?? "Siap Tahu Arah Kariermu?"}
               </h2>
               <p className="mt-3 font-manrope text-base leading-relaxed text-text-lighter-blue/60 md:text-lg">
-                Gratis, kurang dari 2 menit, dan hasilnya langsung bisa kamu pakai.
+                {ctaConfig.subtitle ?? "Gratis, kurang dari 2 menit, dan hasilnya langsung bisa kamu pakai."}
               </p>
             </div>
             <Link
               to="/onboarding"
               className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-brand-orange px-8 py-4 font-manrope text-base font-bold text-white shadow-lg shadow-brand-orange/25 transition-all duration-300 hover:scale-[1.02] hover:bg-brand-orange/90 hover:shadow-xl active:scale-[0.98] md:px-10 md:py-5"
             >
-              Mulai sekarang — gratis
+              {ctaConfig.button ?? "Mulai sekarang — gratis"}
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>

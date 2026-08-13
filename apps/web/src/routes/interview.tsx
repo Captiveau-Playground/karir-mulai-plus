@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@karir-mulai-plus/ui/components/select";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 import {
   evaluateAnswer,
@@ -39,6 +40,12 @@ export const Route = createFileRoute("/interview")({
 
 function InterviewPage() {
   const state = useDb();
+  const interviewQuestions = useConfigValue<Record<string, string[]>>(
+    "master.interviewQuestions",
+    INTERVIEW_ROLE_QUESTIONS,
+  );
+  const starTemplate = useConfigValue("master.starTemplate", STAR_TEMPLATE);
+  const roleOptions = useConfigValue<string[]>("master.roleOptions", ROLE_OPTIONS);
   const [role, setRole] = useState(
     state.profile?.interest === "Data" ? "Data Analyst" : ROLE_OPTIONS[0]!,
   );
@@ -49,7 +56,8 @@ function InterviewPage() {
   const [feedback, setFeedback] = useState<{ score: number; tips: string[] } | null>(null);
   const [scores, setScores] = useState<number[]>([]);
 
-  const questions = INTERVIEW_ROLE_QUESTIONS[role] ?? INTERVIEW_ROLE_QUESTIONS["Product Manager"]!;
+  const questions =
+    interviewQuestions[role] ?? interviewQuestions["Product Manager"] ?? [];
 
   const startMock = () => {
     setTab("mock");
@@ -114,7 +122,7 @@ function InterviewPage() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {ROLE_OPTIONS.map((r) => (
+              {roleOptions.map((r) => (
                 <SelectItem key={r} value={r}>
                   {r}
                 </SelectItem>
@@ -174,9 +182,9 @@ function InterviewPage() {
 
             <div>
               <Card className="p-5">
-                <p className="font-display text-base font-semibold">{STAR_TEMPLATE.title}</p>
+                <p className="font-display text-base font-semibold">{starTemplate.title}</p>
                 <div className="mt-4 space-y-3">
-                  {STAR_TEMPLATE.steps.map((s) => (
+                  {starTemplate.steps.map((s) => (
                     <div key={s.s} className="rounded-xl border border-border p-3">
                       <p className="text-xs font-bold uppercase tracking-widest text-brand">
                         {s.s}

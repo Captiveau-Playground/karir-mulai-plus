@@ -33,6 +33,7 @@ import {
 } from "@karir-mulai-plus/ui/components/select";
 import { cn } from "@/lib/utils";
 import { useDb } from "@/hooks/use-db";
+import { useConfigValue } from "@/hooks/use-server-data";
 import { db } from "@/lib/db";
 import {
   ROLE_OPTIONS,
@@ -122,6 +123,7 @@ async function readFileContent(f: File): Promise<string> {
 function CvAuditPage() {
   const nav = useNavigate();
   const state = useDb();
+  const roleOptions = useConfigValue<string[]>("master.roleOptions", ROLE_OPTIONS);
   const [stage, setStage] = useState<"upload" | "processing" | "result">("upload");
   const [step, setStep] = useState(0);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -309,7 +311,7 @@ function CvAuditPage() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {ROLE_OPTIONS.map((r) => (
+                {roleOptions.map((r) => (
                   <SelectItem key={r} value={r}>
                     {r}
                   </SelectItem>

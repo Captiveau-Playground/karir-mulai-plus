@@ -128,6 +128,28 @@ Endpoint `POST /api/seed/admin` (diproteksi header `x-seed-key` == `ADMIN_SEED_K
 — idempotent: buat admin jika belum ada, atau pastikan role admin jika sudah ada.
 CI juga otomatis seed admin setelah deploy bila secret `ADMIN_EMAIL` + `ADMIN_PASSWORD` diset.
 
+## Backoffice (Superadmin & Manager)
+
+Backoffice di `/admin` (menu **Career OS → Backoffice**) mengelola semua konfigurasi dinamis app:
+
+| Tab | Akses | Isi |
+|---|---|---|
+| Dashboard | semua | statistik platform + panduan |
+| Market | manager+ | CRUD role, skill, gaji, hiring heat |
+| Mentors | manager+ | CRUD daftar mentor |
+| Career Paths | manager+ | CRUD jalur karier |
+| Blog | manager+ | tulis/publish artikel |
+| Master Data | manager+ | Role Options, Skill Options, Skill Quiz, Interview Questions, Roadmap Weeks, RIASEC |
+| Landing | manager+ | hero stats, FAQ, CTA text |
+| Gamifikasi | manager+ | XP reward per aksi, level threshold |
+| Users | superadmin | kelola role (user/manager/admin) & ban |
+| Audit | manager+ | riwayat semua perubahan (siapa, kapan, sebelum/sesudah) |
+
+**Role**: `user` (default) → `manager` (kelola konten) → `admin` (superadmin, kelola user).
+Penyimpanan: tabel `app_config` (JSON key-value), `blog_posts`, `config_audit_log` di D1.
+Perubahan konfig langsung ter-reflect di halaman publik (market, mentors, blog) —
+prioritas data: konfig backoffice > router server > mock.
+
 ## Scripts
 
 | Script | Fungsi |
