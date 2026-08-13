@@ -210,25 +210,27 @@ function CvBuilderInner() {
           </SelectContent>
         </Select>
 
-        <div className="ml-auto flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Template
-          </span>
-          <div className="flex gap-1.5">
-            {(["minimal", "modern", "bold"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => set({ template: t })}
-                className={cn(
-                  "rounded-lg border px-3 py-1.5 text-xs font-semibold capitalize transition-colors",
-                  draft.template === t
-                    ? "border-brand bg-brand-soft"
-                    : "border-border text-muted-foreground hover:bg-secondary",
-                )}
-              >
-                {t}
-              </button>
-            ))}
+        <div className="ml-auto flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Template
+            </span>
+            <div className="flex gap-1.5">
+              {(["minimal", "modern", "bold"] as const).map((t) => (
+                <button
+                  key={t}
+                  onClick={() => set({ template: t })}
+                  className={cn(
+                    "rounded-lg border px-3 py-1.5 text-xs font-semibold capitalize transition-colors",
+                    draft.template === t
+                      ? "border-brand bg-brand-soft"
+                      : "border-border text-muted-foreground hover:bg-secondary",
+                  )}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="flex gap-1.5">
             {(Object.keys(ACCENTS) as Accent[]).map((a) => (

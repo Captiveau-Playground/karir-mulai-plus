@@ -123,7 +123,7 @@ function Dashboard() {
 
   return (
     <AppShell>
-      <section className="mb-8 overflow-hidden rounded-3xl bg-brand-deep p-8 text-white sm:p-12">
+      <section className="relative mb-8 overflow-hidden rounded-3xl bg-brand-deep p-8 text-white sm:p-12">
         <div className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full bg-coral/20 blur-3xl" />
         <div className="relative">
         <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur">
