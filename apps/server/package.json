@@ -6,7 +6,13 @@
     "build": "tsdown",
     "check-types": "tsc -b",
     "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
-    "dev": "wrangler dev --port 3000"
+    "dev": "wrangler dev --port 3000",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "db:migrate:local": "wrangler d1 migrations apply karir-mulai-plus-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply karir-mulai-plus-db --remote",
+    "db:migrate:staging": "wrangler d1 migrations apply karir-mulai-plus-db-staging --remote --env staging",
+    "secret:staging": "wrangler secret put BETTER_AUTH_SECRET --env staging"
   },
   "dependencies": {
     "@karir-mulai-plus/api": "workspace:*",

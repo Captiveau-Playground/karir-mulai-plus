@@ -19,7 +19,7 @@ export const server = await Worker("server", {
   entrypoint: "src/index.ts",
   compatibility: "node",
   url: true,
-  domains: ["api.mulaiplus.id"],
+  domains: ["api-prod.karir.mulaiplus.id"],
   bindings: {
     DB: db,
     CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
@@ -33,7 +33,7 @@ export const server = await Worker("server", {
 
 export const web = await TanStackStart("web", {
   cwd: "../../apps/web",
-  domains: ["app.mulaiplus.id"],
+  domains: ["karir.mulaiplus.id"],
   bindings: {
     VITE_SERVER_URL: server.url!,
     DB: db,

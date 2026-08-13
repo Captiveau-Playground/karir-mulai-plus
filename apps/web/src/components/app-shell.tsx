@@ -228,7 +228,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <main className="mx-auto max-w-6xl px-4 py-8">{children}</main>
 
       <footer className="border-t border-border/70 py-8 text-center text-xs text-muted-foreground">
-        MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa.
+        MULAI+ Career — akselerator karier berbasis data.
       </footer>
     </div>
   );

@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mulai-plus-web-staging",
+  "main": "virtual:tanstack-start-server-entry",
+  "compatibility_date": "2026-07-29",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "dist/client"
+  },
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "staging.karir.mulaiplus.id", "custom_domain": true }
+  ]
+}

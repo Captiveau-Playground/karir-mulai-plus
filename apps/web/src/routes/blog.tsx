@@ -4,10 +4,10 @@ import { ArrowRight, BookOpen, CalendarDays } from "lucide-react";
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "Blog — Bimbingan Universitas & Beasiswa | MULAI+" },
+      { title: "Blog — Tips Karier & Data Pasar | MULAI+ Career" },
       {
         name: "description",
-        content: "Tips, panduan, dan info seputar kuliah dan beasiswa dari MULAI+.",
+        content: "Tips, panduan, dan data seputar dunia kerja dan karier dari MULAI+ Career.",
       },
     ],
   }),
@@ -17,51 +17,50 @@ export const Route = createFileRoute("/blog")({
 const POSTS = [
   {
     image: "/blog/blog-QNLOwv4Zq0rM-Thumbnail---WGS--2-.png",
-    alt: "Group Mentoring Week 2 MULAI+ Batch 1",
-    category: "Education",
-    tag: "News",
-    title:
-      "Group Mentoring Week 2 MULAI+ Batch 1: Peserta Mulai Menggali Diri, Mana Tipe Mahasiswa Mereka?",
+    alt: "Skor CV naik setelah audit",
+    category: "Career",
+    tag: "Tips",
+    title: "Skor CV 61 → 78 dalam Seminggu: Apa yang Sebenarnya Diubah?",
     excerpt:
-      "Satu minggu setelah onboarding yang penuh energi, peserta Batch 1 MULAI+ kembali berkumpul untuk group mentoring session yang lebih mendalam. Kali ini, bukan sekadar perkenalan atau penjelasan teknis, tapi mulai masuk ke fase eksplorasi diri yang serious.",
-    date: "27 Juni 2026",
-    read: "3 min read",
+      "Bukan sekadar menambah keyword. Dari struktur ATS yang berantakan sampai kalimat dampak yang tidak terukur — ini breakdown konkret perubahan yang menaikkan skor CV hingga 17 poin dalam seminggu.",
+    date: "12 Agustus 2026",
+    read: "4 min read",
   },
   {
     image: "/blog/blog-efmn7uMkruim-Thumbnail-Article--1.png",
-    alt: "Self-Discovery sebelum pilih jurusan",
-    category: "Education",
+    alt: "Self-Discovery sebelum pilih jalur karier",
+    category: "Career",
     tag: "Artikel",
     title:
-      "Kenapa Self-Discovery Harus Dimulai Sebelum Pilih Jurusan, Bukan Setelahnya",
+      "Kenapa Self-Discovery Harus Dimulai Sebelum Pilih Jalur Karier, Bukan Setelahnya",
     excerpt:
-      "\"Aku baru realize passion aku saat sudah semester 5 kuliah teknik.\" Atau: \"Ternyata aku nggak cocok sama jurusan hukum yang aku pilih.\" Cerita seperti ini sangat umum didengar dari mahasiswa yang realize terlambat bahwa pilihan mereka tidak selaras dengan siapa mereka sebenarnya.",
-    date: "27 Juni 2026",
+      "\"Aku baru realize passion aku saat sudah 5 tahun kerja di posisi yang salah.\" Cerita seperti ini sangat umum didengar dari profesional yang terlambat menyadari bahwa pilihan karier mereka tidak selaras dengan siapa mereka sebenarnya.",
+    date: "10 Agustus 2026",
     read: "4 min read",
   },
   {
     image: "/blog/blog-XzNSIboIiSD1-Thumbnail-Article--4.png",
-    alt: "42% Mahasiswa Indonesia Alami Kebingungan Karir",
-    category: "Education",
-    tag: "Artikel",
+    alt: "Kebingungan karier di Indonesia",
+    category: "Career",
+    tag: "Data",
     title:
-      "42% Mahasiswa Indonesia Alami Kebingungan Karir, Kenapa Itu Terjadi dan Bagaimana Mencegahnya",
+      "42% Mahasiswa Indonesia Alami Kebingungan Karir — Ini Data & Cara Mencegahnya",
     excerpt:
-      "Menurut data dari Kemendikbudristek tahun 2023, 42% mahasiswa Indonesia mengalami kebingungan dan ketidakpastian dalam membuat keputusan karir. Angka itu adalah bukti nyata bahwa confusion tentang masa depan bukan kegagalan personal, melainkan tantangan struktural yang dihadapi banyak orang.",
-    date: "26 Juni 2026",
+      "Menurut data Kemendikbudristek tahun 2023, 42% mahasiswa Indonesia mengalami ketidakpastian dalam keputusan karir. Angka ini bukti nyata bahwa kebingungan bukan kegagalan personal, melainkan tantangan struktural.",
+    date: "8 Agustus 2026",
     read: "3 min read",
   },
   {
     image: "/blog/blog-0mkc8Brfn3Oj-Thumbnail---WGS--1-.png",
-    alt: "Group Mentoring Week 1 MULAI+ Batch 1",
-    category: "Education",
-    tag: "News",
+    alt: "Roadmap belajar skill",
+    category: "Career",
+    tag: "Panduan",
     title:
-      "Group Mentoring Week 1 MULAI+ Batch 1: Peserta Diminta Mengenal Diri Sendiri Sebelum Pilih Jurusan",
+      "Roadmap Belajar 90 Hari untuk Role Data Analyst: Gap Skill, Tools, dan Target",
     excerpt:
-      "Minggu pertama adalah momentum penting. Bukan untuk langsung bahas jurusan atau universitas, tapi untuk melakukan hal yang lebih fundamental: mengenal diri sendiri. Inilah yang menjadi fokus group mentoring session pertama dengan mentor Billy Thohari.",
-    date: "25 Juni 2026",
-    read: "3 min read",
+      "Dari SQL dan Python dasar sampai portfolio yang layak dilamar — jadwal mingguan, sumber belajar, dan checkpoint evaluasi untuk role Data Analyst dalam 90 hari.",
+    date: "5 Agustus 2026",
+    read: "5 min read",
   },
 ];
 
@@ -78,7 +77,7 @@ function BlogPage() {
         <div className="hidden items-center gap-1 md:flex md:gap-2">
           {[
             { label: "Explore", href: "/market" },
-            { label: "Program", href: "/onboarding" },
+            { label: "Fitur", href: "/cv-audit" },
             { label: "Assessment", href: "/onboarding" },
             { label: "Blog", href: "/blog", active: true },
           ].map((n) => (
@@ -127,10 +126,10 @@ function BlogPage() {
             Blog
           </span>
           <h1 className="mt-3 max-w-3xl font-bricolage text-4xl font-bold leading-tight text-white md:text-5xl lg:text-[64px]">
-            Artikel & Berita <span className="text-brand-orange">Terbaru</span>
+            Artikel & Tips <span className="text-brand-orange">Karier</span>
           </h1>
           <p className="mt-4 max-w-xl font-manrope text-base leading-relaxed text-text-lighter-blue/60 md:text-lg">
-            Tips, panduan, dan info seputar kuliah dan beasiswa dari MULAI+.
+            Tips, panduan, dan data seputar dunia kerja dan karier dari MULAI+ Career.
           </p>
         </div>
       </header>

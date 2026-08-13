@@ -1,17 +1,27 @@
 # ============================================================
 # Server Hono (oRPC + Better Auth) — run lokal / deploy Cloudflare
+#
+# Environments:
+#   production (default) — worker: mulai-plus-server
+#   staging             — worker: mulai-plus-server-staging
+#
 # Lokal:  wrangler dev --port 3000   (D1 local, migrasi di bawah)
-# Migrasi: wrangler d1 migrations apply karir-mulai-plus-db --local
+# Migrasi lokal: wrangler d1 migrations apply karir-mulai-plus-db --local
+# Migrasi staging: wrangler d1 migrations apply karir-mulai-plus-db-staging --remote
 # ============================================================
 name = "mulai-plus-server"
 main = "src/index.ts"
 compatibility_date = "2026-07-29"
 compatibility_flags = ["nodejs_compat"]
 
-# Custom domain (mulaiplus.id sudah active di Cloudflare)
+# workers.dev aktif di semua env (prod: mulai-plus-server.<acct>.workers.dev, staging: mulai-plus-server-staging.<acct>.workers.dev)
 workers_dev = true
+
+# ------------------------------------------------------------
+# PRODUCTION (default)
+# ------------------------------------------------------------
 routes = [
-  { pattern = "api.mulaiplus.id", custom_domain = true },
+  { pattern = "api-prod.karir.mulaiplus.id", custom_domain = true },
 ]
 
 [[d1_databases]]
@@ -21,7 +31,25 @@ database_id = "3e0a00e7-5156-4e77-9f95-e33ddd2a9c35"
 migrations_dir = "../../packages/db/src/migrations"
 
 # Secret (BETTER_AUTH_SECRET) jangan ditaruh di file ini — pakai `wrangler secret put`
-# Nilai produksi (untuk deploy). Dev lokal memakai .dev.vars
 [vars]
-CORS_ORIGIN = "https://app.mulaiplus.id"
-BETTER_AUTH_URL = "https://api.mulaiplus.id"
+CORS_ORIGIN = "https://karir.mulaiplus.id"
+BETTER_AUTH_URL = "https://api-prod.karir.mulaiplus.id"
+
+# ------------------------------------------------------------
+# STAGING  —  wrangler deploy --env staging
+# ------------------------------------------------------------
+[env.staging]
+name = "mulai-plus-server-staging"
+routes = [
+  { pattern = "api-stag.karir.mulaiplus.id", custom_domain = true },
+]
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "karir-mulai-plus-db-staging"
+database_id = "e8c97134-2390-4d12-9206-0bb45611b7ba"
+migrations_dir = "../../packages/db/src/migrations"
+
+[env.staging.vars]
+CORS_ORIGIN = "https://staging.karir.mulaiplus.id"
+BETTER_AUTH_URL = "https://api-stag.karir.mulaiplus.id"

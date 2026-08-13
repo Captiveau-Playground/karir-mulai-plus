@@ -9,6 +9,12 @@
   },
   "workers_dev": true,
   "routes": [
-    { "pattern": "app.mulaiplus.id", "custom_domain": true }
-  ]
+    { "pattern": "karir.mulaiplus.id", "custom_domain": true }
+  ],
+  "env": {
+    "staging": {
+      "name": "mulai-plus-web-staging",
+      "routes": [{ "pattern": "staging.karir.mulaiplus.id", "custom_domain": true }]
+    }
+  }
 }

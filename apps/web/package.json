@@ -4,6 +4,10 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "build:staging": "vite build --mode staging --config vite.config.staging.ts",
+    "check-types": "tsc --noEmit",
+    "deploy": "bun run build && wrangler deploy",
+    "deploy:staging": "bun run build:staging && wrangler deploy",
     "serve": "vite preview",
     "dev:bare": "vite dev",
     "dev": "vite dev"

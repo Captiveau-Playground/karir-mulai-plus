@@ -39,6 +39,10 @@
     "dev:server": "turbo run dev -F server",
     "db:generate": "turbo run db:generate -F @karir-mulai-plus/db",
     "deploy": "cd apps/server && bunx wrangler deploy && cd ../web && bun run build && bunx wrangler deploy",
+    "deploy:staging": "cd apps/server && bun run deploy:staging && cd ../web && bun run build:staging && cd apps/web && bunx wrangler deploy",
+    "db:migrate:local": "cd apps/server && bun run db:migrate:local",
+    "db:migrate:remote": "cd apps/server && bun run db:migrate:remote",
+    "db:migrate:staging": "cd apps/server && bun run db:migrate:staging",
     "destroy": "turbo run destroy -F @karir-mulai-plus/infra",
     "dev:full": "turbo run dev"
   },

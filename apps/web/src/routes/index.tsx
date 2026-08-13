@@ -4,34 +4,34 @@ import { toast } from "sonner";
 import {
   ArrowRight,
   BookOpen,
-  BrainCircuit,
   CalendarDays,
   ChevronDown,
   ChevronRight,
   Compass,
-  GraduationCap,
+  FileSearch,
+  LineChart,
   Mail,
   Search,
   Sparkles,
   Star,
-  Target,
+  Users,
 } from "lucide-react";
 import { db } from "@/lib/db";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa | MULAI+" },
+      { title: "MULAI+ Career — Cek Skor CV Gratis & Temukan Jalur Kariermu" },
       {
         name: "description",
         content:
-          "MULAI+ membimbingmu memilih universitas dan jurusan yang tepat. Program mentoring terstruktur dengan mentor berpengalaman, bimbingan beasiswa, dan persiapan PTN.",
+          "Audit CV berbasis AI, rekomendasi jalur karier, sinyal pasar kerja Indonesia, dan mentor dalam satu platform. Gratis untuk mahasiswa & fresh graduate.",
       },
-      { property: "og:title", content: "MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa" },
+      { property: "og:title", content: "MULAI+ Career — Akselerator Karier Berbasis Data" },
       {
         property: "og:description",
         content:
-          "Tes minat bakat gratis untuk menemukan jurusan & PTN impianmu — didukung data passing grade 10k+ prodi dan mentor 1-on-1.",
+          "Skor CV kamu dalam 30 detik, cari tahu jalur karier yang paling cocok, dan dapatkan mentor yang sudah melewatinya.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -40,185 +40,164 @@ export const Route = createFileRoute("/")({
 });
 
 const HERO_STATS = [
-  { value: "10k+", label: "Program Studi" },
-  { value: "335+", label: "Universitas" },
-  { value: "38", label: "Provinsi" },
+  { value: "4.8/5", label: "Kepuasan user" },
+  { value: "30 detik", label: "Skor CV instan" },
+  { value: "120+", label: "Data role & skill" },
+  { value: "6", label: "Mentor tersedia" },
 ];
 
 const ABOUT_STATS = [
-  { value: "10+", label: "Mentor Aktif" },
-  { value: "6 Minggu", label: "Program Terstruktur" },
+  { value: "4.8/5", label: "Kepuasan user" },
+  { value: "6", label: "Mentor tersedia" },
 ];
 
-const FEATURE_POINTS = [
-  "Tes Minat — Holland RIASEC",
-  "Tes Bakat — 5 kemampuan",
-  "AI + data 18k prodi",
-  "Hasil instan + laporan PDF",
-];
-
-const ASSESSMENT_MODES: {
-  icon: typeof Compass;
-  title: string;
-  sub: string;
-  chips?: string[];
-}[] = [
+const STEPS = [
+  {
+    icon: FileSearch,
+    title: "1. Audit CV gratis",
+    desc: "Unggah atau tempel CV, dapatkan skor 1-100 + perbaikan per bagian dalam 30 detik.",
+  },
   {
     icon: Compass,
-    title: "Tes Minat",
-    sub: "Holland · 10 soal",
+    title: "2. Temukan jalur karier",
+    desc: "Skill, minat, dan kepribadianmu dicocokkan dengan role yang benar-benar tumbuh di pasar.",
   },
   {
-    icon: Sparkles,
-    title: "Tes Bakat",
-    sub: "5 kemampuan · 10 soal",
+    icon: Users,
+    title: "3. Belajar dari mentor",
+    desc: "Booking sesi dengan orang yang sudah melewati jalur yang ingin kamu tempuh.",
   },
-  {
-    icon: BrainCircuit,
-    title: "Mesin MULAI+",
-    sub: "",
-    chips: ["18.000+ prodi", "AI summary"],
-  },
-] as const;
-
-const RECOMMENDATIONS = [
-  { name: "Kedokteran", value: 92 },
-  { name: "Teknik Informatika", value: 85 },
-  { name: "Psikologi", value: 78 },
 ];
 
-const PROGRAMS = [
+const FEATURES = [
   {
-    href: "/onboarding",
-    icon: GraduationCap,
-    accent: "bg-brand-red",
-    title: "Program Beasiswa Mentoring",
-    batch: "Batch 1",
-    desc: "Program Beasiswa Mentoring MULAI+ adalah ruang pendampingan reflektif selama 6 minggu bagi siswa SMA/sederajat yang sedang berada dalam fase kebingungan menentukan arah pendidikan. Program ini bukan kompetisi akademik dan tidak menjanjikan kelulusan instan PTN. Fokus utama kami adalah membantu peserta memahami diri, konteks dunia kuliah, dan mengambil keputusan secara sadar.",
-    points: [
-      "Akses ke 6-Week Direction Curriculum",
-      "Self-Mapping & Reflection Sheet",
-      "Small Group Mentoring Sessions",
-      "Strategy Overview Masuk PTN (Plan A, B, C Framework)",
-    ],
+    icon: FileSearch,
+    title: "AI CV Audit",
+    desc: "Skor struktur, keyword ATS, dampak terukur, dan kustomisasi — plus contoh rewrite kalimat yang bisa langsung dipakai.",
+    cta: "Audit sekarang",
+    to: "/cv-audit" as const,
   },
   {
-    href: "/onboarding",
-    icon: Target,
-    accent: "bg-brand-orange",
-    title: "Reguler Mentoring",
-    batch: "Batch 1",
-    desc: "Program utama MULAI+ dengan akses penuh ke sistem pemetaan arah dan strategi akademik terstruktur selama 6 minggu. Dirancang untuk siswa yang ingin proses mendalam, sistematis, dan memiliki output yang jelas.",
-    points: [
-      "6-Week Structured Direction Curriculum",
-      "Major Matching (Top 3 Fit Recommendation)",
-      "University Strategy Blueprint (Plan A, B, C)",
-      "Small Group Mentoring Sessions",
-    ],
+    icon: Compass,
+    title: "Career Recommend",
+    desc: "Skill, minat, dan tipe kepribadian (RIASEC) dicocokkan ke jalur karier yang tumbuh — lengkap dengan gap skill & roadmap belajar.",
+    cta: "Cari tahu jalurmu",
+    to: "/career" as const,
+  },
+  {
+    icon: LineChart,
+    title: "Market Signals",
+    desc: "Role dan skill paling dicari, benchmark gaji per level, dan peta industri yang sedang agresif merekrut di Indonesia.",
+    cta: "Lihat tren",
+    to: "/market" as const,
+  },
+  {
+    icon: Users,
+    title: "Mentoring",
+    desc: "Mentor yang sudah melewati jalur yang kamu tuju. Filter by budget, jadwal, dan spesialisasi; booking langsung.",
+    cta: "Cari mentor",
+    to: "/mentors" as const,
   },
 ];
 
 const EXPLORE_STATS = [
-  { value: "335", label: "Universitas" },
-  { value: "14,752", label: "Program Studi" },
-  { value: "38", label: "Provinsi" },
+  { value: "120+", label: "Data role & skill" },
+  { value: "30+", label: "Industri terpantau" },
+  { value: "10", label: "Level gaji" },
 ];
 
 const EXPLORE_LINKS = [
-  { href: "/market", label: "Universitas", value: "335 PT" },
-  { href: "/market", label: "Program Studi", value: "14,752 jurusan" },
-  { href: "/market", label: "Passing Grade", value: "146 PTN" },
+  { href: "/market", label: "Role paling dicari", value: "Top 20 role" },
+  { href: "/market", label: "Skill paling diminta", value: "Live trending" },
+  { href: "/market", label: "Benchmark gaji", value: "Per level & industri" },
 ];
 
 const BLOG_POSTS = [
   {
     href: "/blog",
     image: "/blog/blog-QNLOwv4Zq0rM-Thumbnail---WGS--2-.png",
-    alt: "Group Mentoring Week 2 MULAI+ Batch 1",
-    category: "Education",
-    tag: "News",
+    alt: "Skor CV naik setelah audit",
+    category: "Career",
+    tag: "Tips",
     title:
-      "Group Mentoring Week 2 MULAI+ Batch 1: Peserta Mulai Menggali Diri, Mana Tipe Mahasiswa Mereka?",
-    date: "27 Juni 2026",
-    read: "3 min read",
+      "Skor CV 61 → 78 dalam Seminggu: Apa yang Sebenarnya Diubah?",
+    date: "12 Agustus 2026",
+    read: "4 min read",
   },
   {
     href: "/blog",
     image: "/blog/blog-efmn7uMkruim-Thumbnail-Article--1.png",
-    alt: "Self-Discovery sebelum pilih jurusan",
-    category: "Education",
+    alt: "Self-Discovery sebelum pilih karier",
+    category: "Career",
     tag: "Artikel",
     title:
-      "Kenapa Self-Discovery Harus Dimulai Sebelum Pilih Jurusan, Bukan Setelahnya",
-    date: "27 Juni 2026",
+      "Kenapa Self-Discovery Harus Dimulai Sebelum Pilih Jalur Karier, Bukan Setelahnya",
+    date: "10 Agustus 2026",
     read: "4 min read",
   },
   {
     href: "/blog",
     image: "/blog/blog-XzNSIboIiSD1-Thumbnail-Article--4.png",
-    alt: "42% Mahasiswa Indonesia Alami Kebingungan Karir",
-    category: "Education",
-    tag: "Artikel",
+    alt: "Kebingungan karir di Indonesia",
+    category: "Career",
+    tag: "Data",
     title:
-      "42% Mahasiswa Indonesia Alami Kebingungan Karir, Kenapa Itu Terjadi dan Bagaimana Mencegahnya",
-    date: "26 Juni 2026",
+      "42% Mahasiswa Indonesia Alami Kebingungan Karir — Ini Data & Cara Mencegahnya",
+    date: "8 Agustus 2026",
     read: "3 min read",
   },
   {
     href: "/blog",
     image: "/blog/blog-0mkc8Brfn3Oj-Thumbnail---WGS--1-.png",
-    alt: "Group Mentoring Week 1 MULAI+ Batch 1",
-    category: "Education",
-    tag: "News",
+    alt: "Roadmap belajar skill",
+    category: "Career",
+    tag: "Panduan",
     title:
-      "Group Mentoring Week 1 MULAI+ Batch 1: Peserta Diminta Mengenal Diri Sendiri Sebelum Pilih Jurusan",
-    date: "25 Juni 2026",
-    read: "3 min read",
+      "Roadmap Belajar 90 Hari untuk Role Data Analyst: Gap Skill, Tools, dan Target",
+    date: "5 Agustus 2026",
+    read: "5 min read",
   },
 ];
 
 const MENTORS = [
-  { name: "Nimitta", uni: "Universitas Brawijaya", img: "/mentors/nimitta.webp" },
-  { name: "Andhani", uni: "Universitas Brawijaya", img: "/mentors/andani.webp" },
-  { name: "Billy", uni: "Universitas Airlangga", img: "/mentors/billy.webp" },
-  { name: "Salma", uni: "Universitas Gajah Mada", img: "/mentors/salma.webp" },
-  { name: "Nailir", uni: "Universitas Negeri Semarang", img: "/mentors/nelly.webp" },
-  { name: "Hariz", uni: "PENS", img: "/mentors/haris.webp" },
-  { name: "Febby", uni: "UPN Veteran Jatim", img: "/mentors/febby.webp" },
-  { name: "Addina", uni: "Universitas Airlangga", img: "/mentors/addina.webp" },
-  { name: "Dita", uni: "UPN Veteran Jatim", img: "/mentors/dita.webp" },
-  { name: "Naily", uni: "Universitas Gajah Mada", img: "/mentors/naily.webp" },
+  { name: "Nimitta", uni: "Data Analyst · Fintech", img: "/mentors/nimitta.webp" },
+  { name: "Andhani", uni: "Product Manager · SaaS", img: "/mentors/andani.webp" },
+  { name: "Billy", uni: "Software Engineer · Startup", img: "/mentors/billy.webp" },
+  { name: "Salma", uni: "UX Researcher · Agency", img: "/mentors/salma.webp" },
+  { name: "Nailir", uni: "Data Engineer · E-commerce", img: "/mentors/nelly.webp" },
+  { name: "Hariz", uni: "Backend Dev · Fintech", img: "/mentors/haris.webp" },
+  { name: "Febby", uni: "Marketing Lead · D2C", img: "/mentors/febby.webp" },
+  { name: "Addina", uni: "HR & Talent · Tech", img: "/mentors/addina.webp" },
+  { name: "Dita", uni: "Content Strategist · Media", img: "/mentors/dita.webp" },
+  { name: "Naily", uni: "Business Analyst · Bank", img: "/mentors/naily.webp" },
 ];
 
 const FAQ = [
   {
-    q: "Siapa aja yang bisa mendaftar MULAI+?",
-    a: "MULAI+ terbuka untuk siswa SMA/sederajat (kelas 10–12) dan gap year yang sedang mencari arah pendidikan, jurusan, atau strategi masuk PTN. Tidak ada syarat nilai minimum — yang kami butuhkan hanyalah kesediaan untuk menjalani proses secara reflektif.",
+    q: "Apakah gratis?",
+    a: "Ya — skor CV, rekomendasi jalur, dan pencarian mentor gratis selamanya. Deep audit & sesi mentor adalah fitur premium.",
   },
   {
-    q: "Apakah program ini gratis?",
-    a: "MULAI+ memiliki dua jenis program: Regular Mentoring (berbayar) dan Beasiswa Mentoring (melalui proses seleksi). Program beasiswa tersedia bagi siswa terpilih yang memenuhi kriteria dan lolos tahap seleksi.",
+    q: "Data CV saya aman?",
+    a: "Prototipe ini memproses CV di perangkatmu. Saat backend live, kami tidak menyimpan CV tanpa izinmu.",
   },
   {
-    q: "Bagaimana sistem seleksinya?",
-    a: "Untuk program beasiswa, peserta akan melalui beberapa tahap: Pengisian formulir pendaftaran, menjawab pertanyaan reflektif (non-akademik), seleksi berbasis kebutuhan dan komitmen, pengumuman peserta terpilih secara personal, dan persetujuan kontrak komitmen sederhana. Kami menilai berdasarkan komitmen, kesiapan berkembang, dan kesesuaian dengan program.",
+    q: "Untuk siapa produk ini?",
+    a: "Mahasiswa tingkat akhir, fresh graduate, dan profesional 0–3 tahun yang ingin tahu arah karier atau meningkatkan peluang diterima kerja.",
   },
   {
-    q: "Berapa lama program berlangsung?",
-    a: "Durasi program umumnya berlangsung selama kurang lebih 6 minggu, tergantung batch dan jenis program yang diikuti. Selama periode tersebut, peserta akan mengikuti sesi mentoring, refleksi, dan penyusunan strategi secara bertahap.",
+    q: "Apakah datanya real?",
+    a: "Sinyal pasar (gaji, tren skill, hiring heat) diagregasi dari lowongan Indonesia dan diperbarui berkala.",
   },
   {
-    q: "Apakah program ini dilakukan online atau offline?",
-    a: "Seluruh sesi dalam program MULAI+ dilaksanakan secara online untuk memastikan akses yang fleksibel dan merata bagi peserta dari berbagai daerah.",
+    q: "Berapa lama prosesnya?",
+    a: "Skor CV instan dalam 30 detik. Rekomendasi jalur karier ±10 menit setelah tes minat & bakat. Sesi mentor bisa di-booking kapan saja.",
   },
 ];
 
 const FOOTER_LINKS = [
-  { title: "Program", links: ["Beasiswa Mentoring", "Reguler Mentoring", "FAQ", "Cara Daftar"] },
-  {
-    title: "Explore",
-    links: ["Universitas", "Program Studi", "Passing Grade", "Bandingkan Kampus"],
-  },
+  { title: "Fitur", links: ["CV Audit", "Career Recommend", "Market Signals", "Mentoring"] },
+  { title: "Explore", links: ["Role & Skill", "Benchmark Gaji", "Tren Industri", "Roadmap Belajar"] },
   {
     title: "Perusahaan",
     links: ["Tentang Kami", "Mentor", "Blog", "Kontak"],
@@ -227,33 +206,34 @@ const FOOTER_LINKS = [
 
 const NAV_GROUPS = [
   {
-    label: "Explore",
+    label: "Fitur",
     items: [
-      { href: "/market", label: "Universitas", desc: "335+ kampus se-Indonesia" },
-      { href: "/market", label: "Program Studi", desc: "10k+ prodi & passing grade" },
-      { href: "/market", label: "Passing Grade", desc: "146 PTN" },
+      { href: "/cv-audit", label: "CV Audit", desc: "Skor & perbaikan instan" },
+      { href: "/career", label: "Career Recommend", desc: "Jalur karier terbaik" },
+      { href: "/market", label: "Market Signals", desc: "Data pasar kerja live" },
+      { href: "/mentors", label: "Mentoring", desc: "Mentor 1-on-1" },
     ],
   },
   {
-    label: "Program",
+    label: "Explore",
     items: [
-      { href: "/onboarding", label: "Beasiswa Mentoring", desc: "Batch 1 — seleksi" },
-      { href: "/onboarding", label: "Reguler Mentoring", desc: "Batch 1 — program utama" },
+      { href: "/market", label: "Role paling dicari", desc: "Top 20 role Indonesia" },
+      { href: "/market", label: "Benchmark Gaji", desc: "Per level & industri" },
+      { href: "/roadmap", label: "Roadmap Belajar", desc: "Checklist mingguan" },
     ],
   },
   {
     label: "Assessment",
     items: [
-      { href: "/onboarding", label: "Tes Minat", desc: "Holland · 10 soal" },
-      { href: "/onboarding", label: "Tes Bakat", desc: "5 kemampuan · 10 soal" },
-      { href: "/onboarding", label: "Future Career", desc: "Rekomendasi AI" },
+      { href: "/onboarding", label: "Tes Minat Bakat", desc: "RIASEC · ±10 menit" },
+      { href: "/career", label: "Career Match", desc: "Kecocokan role" },
     ],
   },
   {
     label: "Blog",
     items: [
-      { href: "/blog", label: "Artikel", desc: "Tips & panduan" },
-      { href: "/blog", label: "News", desc: "Update program" },
+      { href: "/blog", label: "Artikel", desc: "Tips & panduan karier" },
+      { href: "/blog", label: "News", desc: "Update produk & program" },
     ],
   },
 ];
@@ -291,7 +271,10 @@ function Landing() {
       >
         <Link to="/" className="inline-block w-24 shrink-0 md:w-36">
           <span className="font-bricolage text-xl font-extrabold tracking-tight text-brand-navy md:text-2xl">
-            MULAI<span className="text-brand-orange">+</span>
+            MULAI<span className="text-brand-orange">+</span>{" "}
+            <span className="font-manrope text-xs font-bold tracking-widest text-brand-orange uppercase md:text-sm">
+              Career
+            </span>
           </span>
         </Link>
 
@@ -316,7 +299,7 @@ function Landing() {
                       className="group flex items-center justify-between rounded-xl px-4 py-3 transition-colors hover:bg-brand-navy/5"
                     >
                       <span>
-                        <span className="block font-manrope text-sm font-semibold text-brand-navy group-hover:text-brand-navy">
+                        <span className="block font-manrope text-sm font-semibold text-brand-navy">
                           {item.label}
                         </span>
                         <span className="block font-manrope text-xs text-text-muted">{item.desc}</span>
@@ -363,18 +346,18 @@ function Landing() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-orange opacity-60" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-orange" />
               </span>
-              Tes Minat Bakat · Bimbingan Universitas & Beasiswa
+              Gratis untuk mahasiswa & fresh graduate
             </span>
 
             <h1 className="max-w-3xl font-bricolage text-3xl font-bold leading-[1.08] tracking-tight text-brand-navy md:text-5xl lg:text-[72px] lg:leading-[1.05]">
-              <span className="text-brand-red">Kenali Dirimu,</span> Temukan Jurusan &amp; PTN
-              Impianmu
+              <span className="text-brand-red">Skor CV-mu hari ini,</span>{" "}
+              jalur kariermu besok.
             </h1>
 
             <p className="max-w-xl font-manrope text-base leading-relaxed text-text-muted md:text-lg lg:text-xl">
-              Mulai dari <b className="text-gray-700">Tes Minat Bakat gratis</b> (20 soal, ±10 menit)
-              untuk mengenali arahmu — lalu dalami dengan data passing grade 10k+ prodi, akreditasi,
-              dan mentor 1-on-1.
+              MULAI+ menggabungkan <b className="text-gray-700">audit CV berbasis AI</b>, kecocokan
+              jalur karier, data pasar kerja Indonesia, dan mentoring — satu tempat untuk memulai
+              karier dengan percaya diri.
             </p>
 
             <div className="flex flex-wrap items-center gap-2 md:gap-3">
@@ -392,7 +375,7 @@ function Landing() {
                   type="button"
                   className="w-full cursor-pointer rounded-full bg-brand-red px-8 py-4 font-manrope text-base font-bold text-white shadow-lg shadow-brand-red/25 transition-all duration-300 hover:scale-[1.02] hover:bg-brand-red/90 hover:shadow-xl active:scale-[0.98] sm:px-10 sm:py-4"
                 >
-                  Kenali Dirimu — Gratis
+                  Cek skor CV gratis
                 </button>
               </Link>
               <Link to="/market" className="w-full sm:w-auto">
@@ -400,20 +383,63 @@ function Landing() {
                   type="button"
                   className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-brand-navy/15 px-8 py-4 font-manrope text-base font-bold text-brand-navy transition-all duration-300 hover:border-brand-navy/30 hover:bg-brand-navy/5 active:scale-[0.98] sm:px-10 sm:py-4"
                 >
-                  <GraduationCap className="size-5" />
-                  Lihat Universitas
+                  <LineChart className="size-5" />
+                  Lihat data pasar kerja
                 </button>
               </Link>
             </div>
           </div>
 
           <div className="hidden md:flex md:items-center md:justify-center">
-            <div className="relative">
-              <img
-                src="/featured.webp"
-                alt="Tes minat bakat MULAI+"
-                className="h-auto w-full max-w-[300px] object-contain drop-shadow-2xl lg:max-w-[460px]"
-              />
+            <div className="relative w-full max-w-[300px] lg:max-w-[420px]">
+              {/* CV Score card mockup */}
+              <div className="relative rounded-3xl bg-brand-navy p-6 text-white shadow-2xl shadow-brand-navy/20 lg:p-8">
+                <div className="pointer-events-none absolute -top-16 -right-16 h-40 w-40 rounded-full bg-brand-orange/20 blur-3xl" />
+                <div className="flex items-center justify-between">
+                  <span className="font-manrope text-xs font-semibold uppercase tracking-widest text-text-lighter-blue/60">
+                    CV Score
+                  </span>
+                  <span className="rounded-full bg-brand-orange/20 px-3 py-1 font-manrope text-[10px] font-bold text-brand-orange">
+                    AI Audit
+                  </span>
+                </div>
+                <p className="mt-4 font-bricolage text-6xl font-extrabold tracking-tight lg:text-7xl">
+                  78<span className="text-lg text-text-lighter-blue/60">/100</span>
+                </p>
+                <div className="mt-4 flex items-center gap-2">
+                  <span className="text-success">▲</span>
+                  <span className="font-manrope text-xs text-text-lighter-blue/70">
+                    Naik dari 61 setelah saran rewrite
+                  </span>
+                </div>
+                <div className="mt-6 space-y-3">
+                  {[
+                    { label: "Struktur & ATS", value: 88, color: "bg-teal-400" },
+                    { label: "Dampak terukur", value: 72, color: "bg-brand-orange" },
+                    { label: "Keyword relevan", value: 81, color: "bg-brand-red" },
+                  ].map((row) => (
+                    <div key={row.label}>
+                      <div className="flex justify-between font-manrope text-[10px]">
+                        <span className="text-white/80">{row.label}</span>
+                        <span className="font-bold text-white/80">{row.value}%</span>
+                      </div>
+                      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
+                        <div className={`h-full rounded-full ${row.color}`} style={{ width: `${row.value}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Floating badge */}
+              <div className="absolute -bottom-6 -left-6 flex items-center gap-3 rounded-2xl bg-white p-4 shadow-xl ring-1 ring-black/5">
+                <span className="grid size-11 place-items-center rounded-xl bg-brand-orange/15">
+                  <Compass className="size-5 text-brand-orange" />
+                </span>
+                <div>
+                  <p className="font-manrope text-xs font-bold text-brand-navy">Jalur karier terbaik</p>
+                  <p className="font-manrope text-[10px] text-text-muted">Data Analyst · 92% cocok</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -421,7 +447,7 @@ function Landing() {
             <span className="animate-bounce">
               <ChevronDown className="size-4" />
             </span>
-            Scroll untuk lihat program
+            Scroll untuk lihat fitur
           </div>
         </div>
 
@@ -429,7 +455,7 @@ function Landing() {
       </section>
 
       {/* ABOUT */}
-      <section aria-label="Tentang MULAI+" className="relative w-full bg-white py-16 lg:pb-32" id="about">
+      <section aria-label="Tentang MULAI+ Career" className="relative w-full bg-white py-16 lg:pb-32" id="about">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 right-1/4 h-96 w-96 rounded-full bg-brand-navy/[0.02] blur-[100px]" />
         </div>
@@ -439,20 +465,22 @@ function Landing() {
               <div className="flex flex-col gap-5">
                 <span className="inline-flex items-center gap-2 font-manrope text-sm font-semibold tracking-widest text-brand-orange md:text-base">
                   <span className="h-px w-6 bg-brand-orange" />
-                  ABOUT MULAI+
+                  TENTANG MULAI+ CAREER
                 </span>
                 <h2 className="font-bricolage text-4xl font-bold leading-tight text-brand-navy md:text-5xl lg:text-[64px]">
-                  Bimbingan Nyata Untuk <span className="text-brand-red">Keputusan Masa Depanmu</span>
+                  Akselerator Karier{" "}
+                  <span className="text-brand-red">Berbasis Data</span>
                 </h2>
               </div>
               <div className="flex flex-col gap-4 font-manrope text-base leading-relaxed text-text-muted md:text-lg">
                 <p>
-                  <span className="font-semibold text-brand-navy">Bingung milih jurusan?</span> MULAI+
-                  adalah platform pendampingan terstruktur yang bantu kamu mengambil keputusan akademik
-                  — dengan data real-time, mentor 1-on-1, dan strategi yang terbukti.
+                  <span className="font-semibold text-brand-navy">Bingung mau jadi apa?</span>{" "}
+                  MULAI+ Career adalah platform pendampingan terstruktur yang bantu kamu mengambil
+                  keputusan karier — dengan audit CV berbasis AI, data pasar kerja real-time, dan
+                  mentor 1-on-1.
                 </p>
                 <p>
-                  Bukan sekadar motivasi. Kami hadirkan sistem, refleksi, dan rencana masuk PTN yang
+                  Bukan sekadar motivasi. Kami hadirkan sistem, refleksi, dan rencana karier yang
                   matang. Tempat di mana kebingungan diolah jadi kejelasan, dan keraguan diubah jadi
                   keputusan.
                 </p>
@@ -472,25 +500,27 @@ function Landing() {
             </div>
 
             <div className="flex flex-1 justify-center lg:justify-end">
-              <div className="flex flex-1 gap-4 sm:gap-6 md:gap-9">
-                <div className="flex flex-1 flex-col gap-4 sm:gap-6 md:gap-9">
-                  <div className="relative h-[200px] w-full overflow-hidden rounded-2xl sm:h-[280px] sm:w-[220px] md:h-[454px] md:w-full">
+              <div className="grid w-full grid-cols-2 gap-4 sm:gap-6 md:gap-9">
+                <div className="flex flex-col gap-4 sm:gap-6">
+                  <div className="relative h-[200px] w-full overflow-hidden rounded-2xl sm:h-[280px] md:h-[454px]">
                     <div className="absolute inset-0 z-10 rounded-2xl ring-1 ring-black/5 ring-inset" />
-                    <img
-                      src="/about-us/image-1.webp"
-                      alt="Sesi mentoring MULAI+ bersama mentor berpengalaman"
-                      className="h-full w-full object-cover"
-                    />
+                    <div className="flex h-full flex-col justify-end bg-gradient-to-b from-brand-navy/0 to-brand-navy/10 p-5">
+                      <div className="rounded-2xl bg-white/90 p-4 backdrop-blur">
+                        <p className="font-bricolage text-2xl font-extrabold text-brand-navy">4.8/5</p>
+                        <p className="font-manrope text-xs text-text-muted">Kepuasan user</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="hidden flex-1 flex-col gap-4 pt-12 sm:flex sm:gap-6 md:gap-9">
-                  <div className="relative h-[200px] w-full overflow-hidden rounded-2xl sm:h-[280px] sm:w-[220px] md:h-[340px] md:w-full">
+                <div className="flex flex-col gap-4 pt-12 sm:gap-6">
+                  <div className="relative h-[200px] w-full overflow-hidden rounded-2xl sm:h-[280px] md:h-[340px]">
                     <div className="absolute inset-0 z-10 rounded-2xl ring-1 ring-black/5 ring-inset" />
-                    <img
-                      src="/about-us/image-2.webp"
-                      alt="Refleksi dan diskusi kelompok dalam program MULAI+"
-                      className="h-full w-full object-cover"
-                    />
+                    <div className="flex h-full flex-col justify-end bg-gradient-to-b from-brand-navy/0 to-brand-navy/10 p-5">
+                      <div className="rounded-2xl bg-white/90 p-4 backdrop-blur">
+                        <p className="font-bricolage text-2xl font-extrabold text-brand-navy">30 detik</p>
+                        <p className="font-manrope text-xs text-text-muted">Skor CV instan</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -499,8 +529,8 @@ function Landing() {
         </div>
       </section>
 
-      {/* ASSESSMENT */}
-      <section aria-label="Tes Minat Bakat" className="relative w-full bg-white py-14 lg:py-24">
+      {/* CARA KERJA — gradient card */}
+      <section aria-label="Cara Kerja" className="relative w-full bg-white py-14 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-navy to-brand-navy-light p-8 md:p-12">
             <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl" aria-hidden="true" />
@@ -511,27 +541,30 @@ function Landing() {
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1">
                   <Sparkles className="size-3.5 text-teal-300" />
                   <span className="font-manrope text-xs font-medium text-white/80">
-                    Fitur Baru · Gratis · ±10 Menit
+                    Gratis · Mulai dalam 3 langkah
                   </span>
                 </div>
                 <h2 className="mt-4 font-bricolage text-3xl font-bold leading-tight md:text-4xl">
-                  Belum Yakin Mau Kuliah Apa?
+                  Belum Yakin Mau Jadi Apa?
                   <span className="mt-1 block bg-gradient-to-r from-teal-300 to-teal-400 bg-clip-text text-transparent">
-                    Kenali Minat & Bakatmu Sekarang
+                    Mulai dari Audit CV Gratis
                   </span>
                 </h2>
                 <p className="mt-4 max-w-lg font-manrope text-sm leading-relaxed text-white/70 md:text-base">
-                  20 soal untuk menemukan jurusan yang benar-benar cocok — dicocokkan dengan{" "}
-                  <span className="font-semibold text-white">18.000+ prodi</span> dan{" "}
+                  Skor CV-mu dalam 30 detik, dicocokkan dengan{" "}
+                  <span className="font-semibold text-white">120+ data role & skill</span> dan{" "}
                   <span className="font-semibold text-white">AI</span>, bukan tebakan.
                 </p>
                 <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
-                  {FEATURE_POINTS.map((f) => (
-                    <li key={f} className="flex items-center gap-2.5 font-manrope text-sm text-white/80">
+                  {STEPS.map((s) => (
+                    <li key={s.title} className="flex items-start gap-2.5 font-manrope text-sm text-white/80">
                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/10">
                         <CheckIcon />
                       </span>
-                      {f}
+                      <span>
+                        <span className="block font-semibold text-white">{s.title}</span>
+                        <span className="block text-xs text-white/60">{s.desc}</span>
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -540,158 +573,63 @@ function Landing() {
                     to="/onboarding"
                     className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-bricolage text-sm font-bold text-brand-navy shadow-lg transition-all hover:bg-amber-50 active:scale-[0.98]"
                   >
-                    Coba Sekarang
+                    Mulai sekarang — gratis
                     <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                   </Link>
                   <Link
-                    to="/onboarding"
+                    to="/cv-audit"
                     className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 font-bricolage text-sm font-bold text-white transition-all hover:bg-white/10 active:scale-[0.98]"
                   >
-                    Pelajari Tes Minat
+                    Audit CV langsung
                   </Link>
                 </div>
               </div>
 
               <div className="space-y-3">
-                {ASSESSMENT_MODES.map((m) => (
-                  <div
-                    key={m.title}
-                    className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10">
-                      <m.icon className="size-5 text-teal-300" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-bricolage text-sm font-bold text-white">{m.title}</p>
-                      <p className="font-manrope text-[10px] text-white/50">{m.sub}</p>
-                      {m.chips && (
-                        <div className="mt-1 flex flex-wrap gap-1.5">
-                          {m.chips.map((c) => (
-                            <span
-                              key={c}
-                              className="inline-flex items-center gap-1 rounded-full bg-white/10 px-2 py-0.5 font-manrope text-[9px] font-semibold text-white/70"
-                            >
-                              {c}
-                            </span>
-                          ))}
+                {FEATURES.map((f) => (
+                  <Link key={f.title} to={f.to} className="block">
+                    <div className="group flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-4 transition-colors hover:bg-white/10">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                        <f.icon className="size-5 text-teal-300" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="font-bricolage text-sm font-bold text-white">{f.title}</p>
+                          <ChevronRight className="size-4 text-white/40 transition-transform group-hover:translate-x-0.5 group-hover:text-brand-orange" />
                         </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-                  <p className="font-manrope text-xs font-bold text-white">
-                    Rekomendasi dari data nyata, bukan opini
-                  </p>
-                  <div className="mt-3 space-y-2">
-                    {RECOMMENDATIONS.map((r) => (
-                      <div key={r.name}>
-                        <div className="flex justify-between font-manrope text-[11px]">
-                          <span className="font-semibold text-white/80">{r.name}</span>
-                          <span className="font-bold text-teal-300">{r.value}%</span>
-                        </div>
-                        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10">
-                          <div
-                            className="h-full rounded-full bg-gradient-to-r from-teal-400 to-teal-500"
-                            style={{ width: `${r.value}%` }}
-                          />
-                        </div>
+                        <p className="mt-1 font-manrope text-xs leading-relaxed text-white/60">{f.desc}</p>
+                        <span className="mt-1.5 inline-block font-manrope text-[11px] font-semibold text-brand-orange">
+                          {f.cta}
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FEATURED PROGRAMS */}
-      <section aria-label="Program" className="relative w-full overflow-hidden bg-brand-navy py-16 lg:py-24" id="featured-programs">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "48px 48px" }} />
-        <div className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand-orange/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-brand-red/10 blur-3xl" />
-
-        <div className="relative container mx-auto max-w-7xl px-4 sm:px-6 lg:px-6">
-          <div className="flex w-full flex-col gap-10 lg:w-[65%]">
-            <div className="flex flex-col gap-4 text-center lg:text-right">
-              <span className="font-manrope text-xl font-bold uppercase tracking-widest text-brand-orange lg:text-2xl">
-                Featured Programs
-              </span>
-              <h2 className="font-bricolage text-4xl font-bold leading-tight text-white lg:text-6xl">
-                MULAI+ Mentoring Programs 2026
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-6">
-              {PROGRAMS.map((p) => (
-                <Link
-                  key={p.title}
-                  to={p.href}
-                  className="group/card relative flex flex-col justify-between rounded-3xl bg-brand-navy-light p-8 ring-1 ring-white/[0.06] transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-brand-orange/5 hover:ring-brand-orange/20"
-                >
-                  <div className="pointer-events-none absolute inset-0 rounded-3xl bg-white/[0.02] opacity-0 transition-opacity duration-500 group-hover/card:opacity-100" />
-                  <div className="relative flex flex-col gap-6">
-                    <div className="flex flex-col gap-4">
-                      <div className="flex flex-col items-start gap-4">
-                        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white shadow-lg sm:h-14 sm:w-14 ${p.accent}`}>
-                          <p.icon className="size-6" />
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <div className="flex flex-col flex-wrap items-start gap-2">
-                            <h3 className="font-bricolage text-lg font-bold leading-tight text-white sm:text-2xl">
-                              {p.title}
-                            </h3>
-                            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 font-manrope text-xs font-medium text-text-light-blue">
-                              {p.batch}
-                            </span>
-                          </div>
-                          <p className="font-manrope text-xs leading-relaxed text-text-light-blue/80 sm:text-sm">
-                            {p.desc}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <ul className="flex flex-col gap-2.5">
-                      {p.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-2 font-manrope text-xs text-text-light-blue sm:text-sm">
-                          <CheckIcon className="mt-0.5 size-4 shrink-0 text-brand-orange" />
-                          {pt}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="relative mt-8 inline-flex items-center gap-2 font-bricolage text-sm font-bold text-white transition-colors group-hover/card:text-brand-orange">
-                    Daftar Sekarang
-                    <ArrowRight className="size-4 transition-transform duration-300 group-hover/card:translate-x-1" />
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DATA EXPLORER */}
+      {/* DATA EXPLORER — Market */}
       <section aria-label="Data Explorer" className="relative w-full bg-white py-16 lg:py-24">
         <div className="container relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-6">
           <div className="flex w-full flex-col gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
             <div className="flex flex-1 flex-col gap-3">
               <span className="font-manrope text-sm font-semibold uppercase tracking-[0.25em] text-brand-orange">
-                Data Explorer
+                Market Signals
               </span>
               <h2 className="font-bricolage text-2xl font-bold leading-tight text-brand-navy sm:text-3xl lg:text-5xl">
-                Cari <span className="text-brand-red">Jurusan</span> atau{" "}
-                <span className="text-brand-red">Universitas</span>mu
+                Lihat Apa yang <span className="text-brand-red">Benar-Benar Dicari</span> Pasar
               </h2>
               <p className="max-w-lg font-manrope text-sm leading-relaxed text-text-muted sm:text-base">
-                Data passing grade, akreditasi, dari 335 PT dan 10.000+ prodi se-Indonesia.
+                Data gaji, tren skill, dan hiring heat dari lowongan kerja Indonesia — diperbarui
+                berkala.
               </p>
 
               <div className="relative z-20 mt-2">
                 <div className="mb-3 flex items-center gap-1.5">
-                  {["Program Studi", "Universitas"].map((tab, i) => (
+                  {["Role", "Skill", "Gaji"].map((tab, i) => (
                     <button
                       key={tab}
                       type="button"
@@ -712,7 +650,7 @@ function Landing() {
                 >
                   <Search className="size-4 text-text-muted" />
                   <input
-                    placeholder="Cari jurusan/prodi..."
+                    placeholder="Cari role / skill / jabatan..."
                     className="h-auto min-w-0 flex-1 rounded-2xl border-0 bg-transparent px-1 font-manrope text-sm text-text-main shadow-none outline-none ring-0 placeholder:text-text-muted/50 focus:outline-none focus:ring-0"
                   />
                   <button
@@ -746,7 +684,7 @@ function Landing() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="grid size-10 place-items-center rounded-xl bg-brand-navy/5">
-                      <GraduationCap className="size-5 text-brand-navy" />
+                      <LineChart className="size-5 text-brand-navy" />
                     </span>
                     <div>
                       <p className="font-manrope text-sm font-semibold text-brand-navy">{l.label}</p>
@@ -780,10 +718,10 @@ function Landing() {
                 Blog
               </span>
               <h2 className="font-bricolage text-2xl font-bold text-brand-navy sm:text-3xl lg:text-4xl">
-                Artikel & Berita Terbaru
+                Artikel & Tips Karier Terbaru
               </h2>
               <p className="mt-1 font-manrope text-sm text-text-muted">
-                Tips, panduan, dan info seputar kuliah dan beasiswa
+                Tips, panduan, dan data seputar dunia kerja dan karier
               </p>
             </div>
             <Link
@@ -850,8 +788,8 @@ function Landing() {
               Belajar Bareng yang Pernah di Posisi Kamu
             </h2>
             <p className="max-w-xl font-manrope text-base leading-relaxed text-text-lighter-blue/60 md:text-lg">
-              10+ mentor dari berbagai universitas terbaik siap bimbing kamu 1-on-1, dari pemilihan
-              jurusan sampai strategi masuk PTN.
+              10+ mentor dari berbagai industri siap bimbing kamu 1-on-1, dari persiapan CV sampai
+              strategi pindah karier.
             </p>
           </div>
 
@@ -911,8 +849,8 @@ function Landing() {
               </div>
               <p className="font-manrope text-lg leading-relaxed tracking-tight text-text-muted lg:text-2xl">
                 Kami tahu, sebelum memulai sesuatu yang baru pasti ada banyak pertanyaan muncul di
-                kepala. Karena itu, kami rangkum berbagai hal penting seputar program MULAI+ bisa
-                ambil keputusan dengan tenang dan percaya diri.
+                kepala. Karena itu, kami rangkum berbagai hal penting seputar MULAI+ Career supaya
+                kamu bisa ambil keputusan dengan tenang dan percaya diri.
               </p>
             </div>
 
@@ -990,34 +928,32 @@ function Landing() {
               }}
             />
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              <img alt="" src="/cta.webp" className="h-full w-full object-cover object-center" />
+              <img alt="" src="/cta.webp" className="h-full w-full object-cover object-center opacity-30" />
             </div>
             <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-brand-navy via-brand-navy/80 to-transparent" />
 
             <div className="relative z-10 flex max-w-2xl flex-col justify-center gap-8 px-6 py-16 md:px-14 md:py-20 lg:px-16 lg:py-28">
               <h2 className="font-bricolage text-4xl font-bold leading-tight tracking-tight text-white md:text-5xl lg:text-[64px] lg:leading-[1.1]">
-                Siap Mulai <span className="text-brand-orange">Langkah Pertamamu</span>?
+                Siap Tahu <span className="text-brand-orange">Arah Kariermu</span>?
               </h2>
               <p className="max-w-lg font-manrope text-base leading-relaxed text-text-lighter-blue/60 md:text-lg">
-                Daftar Mentoring Scholarship sekarang. Mentor berpengalaman, program terstruktur,
-                dan beasiswa untuk masa depanmu.
+                Gratis, kurang dari 2 menit, dan hasilnya langsung bisa kamu pakai.
               </p>
               <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                 <Link
                   to="/onboarding"
                   className="group inline-flex items-center gap-2 rounded-full bg-brand-orange px-8 py-4 font-manrope text-base font-bold text-white shadow-lg shadow-brand-orange/25 transition-all duration-300 hover:scale-[1.02] hover:bg-brand-orange/90 hover:shadow-xl active:scale-[0.98] md:px-12 md:py-5 md:text-lg"
                 >
-                  Daftar Sekarang
+                  Mulai sekarang — gratis
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
-                <a
-                  href="https://wa.me/6285730367310?text=Halo%20MULAI+%2C%20saya%20ingin%20tanya%20tentang%20program%20mentoring"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/cv-audit"
                   className="group inline-flex items-center gap-2 rounded-full border-2 border-white/20 px-8 py-4 font-manrope text-sm font-semibold text-white/80 transition-all duration-300 hover:border-white/40 hover:bg-white/10 hover:text-white active:scale-[0.98] md:px-10 md:py-5 md:text-base"
                 >
-                  Tanya via WhatsApp
-                </a>
+                  <FileSearch className="size-4" />
+                  Cek skor CV dulu
+                </Link>
               </div>
             </div>
           </div>
@@ -1056,8 +992,8 @@ function Landing() {
                 Ready to <span className="text-brand-orange">mulai+</span>?
               </h2>
               <p className="max-w-lg font-manrope text-base leading-relaxed text-text-lighter-blue lg:text-lg">
-                Subscribe to our newsletter for the latest program updates, university tips, and
-                exclusive mentorship opportunities.
+                Subscribe to our newsletter for career tips, market insights, and exclusive
+                mentorship opportunities.
               </p>
               <form
                 className="flex w-full max-w-md items-center gap-2 rounded-2xl border border-white/10 bg-white/5 p-1.5 ring-1 ring-white/5 backdrop-blur-sm transition-all duration-300 focus-within:border-brand-orange/50 focus-within:ring-brand-orange/20"
@@ -1093,11 +1029,14 @@ function Landing() {
             <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
               <div className="flex flex-col gap-4">
                 <span className="font-bricolage text-2xl font-extrabold tracking-tight text-white">
-                  MULAI<span className="text-brand-orange">+</span>
+                  MULAI<span className="text-brand-orange">+</span>{" "}
+                  <span className="font-manrope text-xs font-bold uppercase tracking-widest text-brand-orange">
+                    Career
+                  </span>
                 </span>
                 <p className="max-w-xs font-manrope text-sm leading-relaxed text-text-lighter-blue/60">
-                  Platform bimbingan universitas, jurusan & beasiswa. Bantu kamu mengambil keputusan
-                  akademik dengan data nyata dan mentor berpengalaman.
+                  Sub-product MULAI+ untuk akselerasi karier. Audit CV, rekomendasi jalur, data
+                  pasar kerja, dan mentor — satu platform.
                 </p>
                 <div className="flex gap-2 pt-1">
                   {["IG", "TT", "YT"].map((s) => (

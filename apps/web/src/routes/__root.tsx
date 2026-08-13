@@ -16,11 +16,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "MULAI+ — Bimbingan Universitas, Jurusan & Beasiswa | MULAI+" },
+      { title: "MULAI+ Career — Cek Skor CV Gratis & Temukan Jalur Kariermu" },
       {
         name: "description",
         content:
-          "MULAI+ membimbingmu memilih universitas dan jurusan yang tepat. Program mentoring terstruktur dengan mentor berpengalaman, bimbingan beasiswa, dan persiapan PTN.",
+          "Audit CV berbasis AI, rekomendasi jalur karier, sinyal pasar kerja Indonesia, dan mentor dalam satu platform.",
       },
       { name: "theme-color", content: "#1a1f6d" },
       { name: "mobile-web-app-capable", content: "yes" },
