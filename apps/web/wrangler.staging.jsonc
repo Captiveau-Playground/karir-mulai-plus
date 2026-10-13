@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mulai-plus-web-staging",
+  "name": "mulai-karir-web-staging",
   "main": "virtual:tanstack-start-server-entry",
   "compatibility_date": "2026-07-29",
   "compatibility_flags": ["nodejs_compat"],

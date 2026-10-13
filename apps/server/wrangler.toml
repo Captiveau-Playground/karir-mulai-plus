@@ -9,7 +9,7 @@
 # Migrasi lokal: wrangler d1 migrations apply karir-mulai-plus-db --local
 # Migrasi staging: wrangler d1 migrations apply karir-mulai-plus-db-staging --remote
 # ============================================================
-name = "mulai-plus-server"
+name = "mulai-karir-server"
 main = "src/index.ts"
 compatibility_date = "2026-07-29"
 compatibility_flags = ["nodejs_compat"]
@@ -39,7 +39,7 @@ BETTER_AUTH_URL = "https://api-prod.karir.mulaiplus.id"
 # STAGING  —  wrangler deploy --env staging
 # ------------------------------------------------------------
 [env.staging]
-name = "mulai-plus-server-staging"
+name = "mulai-karir-server-staging"
 routes = [
   { pattern = "api-stag.karir.mulaiplus.id", custom_domain = true },
 ]

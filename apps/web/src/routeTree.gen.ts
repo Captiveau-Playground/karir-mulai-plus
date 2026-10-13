@@ -25,6 +25,12 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as TrackerRouteImport } from './routes/tracker'
+import { Route as AdminCvReviewRouteImport } from './routes/admin_.cv-review'
+import { Route as AdminCvReviewIndexRouteImport } from './routes/admin_.cv-review.index'
+import { Route as AdminCvReviewClientsRouteImport } from './routes/admin_.cv-review.clients'
+import { Route as AdminCvReviewPipelineRouteImport } from './routes/admin_.cv-review.pipeline'
+import { Route as AdminCvReviewTeamRouteImport } from './routes/admin_.cv-review.team'
+import { Route as AdminCvReviewCasesCaseIdRouteImport } from './routes/admin_.cv-review.cases.$caseId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -106,6 +112,37 @@ const TrackerRoute = TrackerRouteImport.update({
   path: '/tracker',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCvReviewRoute = AdminCvReviewRouteImport.update({
+  id: '/admin_/cv-review',
+  path: '/admin/cv-review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCvReviewIndexRoute = AdminCvReviewIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminCvReviewRoute,
+} as any)
+const AdminCvReviewClientsRoute = AdminCvReviewClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AdminCvReviewRoute,
+} as any)
+const AdminCvReviewPipelineRoute = AdminCvReviewPipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => AdminCvReviewRoute,
+} as any)
+const AdminCvReviewTeamRoute = AdminCvReviewTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminCvReviewRoute,
+} as any)
+const AdminCvReviewCasesCaseIdRoute =
+  AdminCvReviewCasesCaseIdRouteImport.update({
+    id: '/cases/$caseId',
+    path: '/cases/$caseId',
+    getParentRoute: () => AdminCvReviewRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -124,6 +161,12 @@ export interface FileRoutesByFullPath {
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/tracker': typeof TrackerRoute
+  '/admin/cv-review': typeof AdminCvReviewRouteWithChildren
+  '/admin/cv-review/clients': typeof AdminCvReviewClientsRoute
+  '/admin/cv-review/pipeline': typeof AdminCvReviewPipelineRoute
+  '/admin/cv-review/team': typeof AdminCvReviewTeamRoute
+  '/admin/cv-review/': typeof AdminCvReviewIndexRoute
+  '/admin/cv-review/cases/$caseId': typeof AdminCvReviewCasesCaseIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,6 +185,11 @@ export interface FileRoutesByTo {
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/tracker': typeof TrackerRoute
+  '/admin/cv-review/clients': typeof AdminCvReviewClientsRoute
+  '/admin/cv-review/pipeline': typeof AdminCvReviewPipelineRoute
+  '/admin/cv-review/team': typeof AdminCvReviewTeamRoute
+  '/admin/cv-review': typeof AdminCvReviewIndexRoute
+  '/admin/cv-review/cases/$caseId': typeof AdminCvReviewCasesCaseIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -161,6 +209,12 @@ export interface FileRoutesById {
   '/roadmap': typeof RoadmapRoute
   '/skills': typeof SkillsRoute
   '/tracker': typeof TrackerRoute
+  '/admin_/cv-review': typeof AdminCvReviewRouteWithChildren
+  '/admin_/cv-review/clients': typeof AdminCvReviewClientsRoute
+  '/admin_/cv-review/pipeline': typeof AdminCvReviewPipelineRoute
+  '/admin_/cv-review/team': typeof AdminCvReviewTeamRoute
+  '/admin_/cv-review/': typeof AdminCvReviewIndexRoute
+  '/admin_/cv-review/cases/$caseId': typeof AdminCvReviewCasesCaseIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +235,12 @@ export interface FileRouteTypes {
     | '/roadmap'
     | '/skills'
     | '/tracker'
+    | '/admin/cv-review'
+    | '/admin/cv-review/clients'
+    | '/admin/cv-review/pipeline'
+    | '/admin/cv-review/team'
+    | '/admin/cv-review/'
+    | '/admin/cv-review/cases/$caseId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +259,11 @@ export interface FileRouteTypes {
     | '/roadmap'
     | '/skills'
     | '/tracker'
+    | '/admin/cv-review/clients'
+    | '/admin/cv-review/pipeline'
+    | '/admin/cv-review/team'
+    | '/admin/cv-review'
+    | '/admin/cv-review/cases/$caseId'
   id:
     | '__root__'
     | '/'
@@ -217,6 +282,12 @@ export interface FileRouteTypes {
     | '/roadmap'
     | '/skills'
     | '/tracker'
+    | '/admin_/cv-review'
+    | '/admin_/cv-review/clients'
+    | '/admin_/cv-review/pipeline'
+    | '/admin_/cv-review/team'
+    | '/admin_/cv-review/'
+    | '/admin_/cv-review/cases/$caseId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -236,6 +307,7 @@ export interface RootRouteChildren {
   RoadmapRoute: typeof RoadmapRoute
   SkillsRoute: typeof SkillsRoute
   TrackerRoute: typeof TrackerRoute
+  AdminCvReviewRoute: typeof AdminCvReviewRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -352,8 +424,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin_/cv-review': {
+      id: '/admin_/cv-review'
+      path: '/admin/cv-review'
+      fullPath: '/admin/cv-review'
+      preLoaderRoute: typeof AdminCvReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin_/cv-review/': {
+      id: '/admin_/cv-review/'
+      path: '/'
+      fullPath: '/admin/cv-review/'
+      preLoaderRoute: typeof AdminCvReviewIndexRouteImport
+      parentRoute: typeof AdminCvReviewRoute
+    }
+    '/admin_/cv-review/clients': {
+      id: '/admin_/cv-review/clients'
+      path: '/clients'
+      fullPath: '/admin/cv-review/clients'
+      preLoaderRoute: typeof AdminCvReviewClientsRouteImport
+      parentRoute: typeof AdminCvReviewRoute
+    }
+    '/admin_/cv-review/pipeline': {
+      id: '/admin_/cv-review/pipeline'
+      path: '/pipeline'
+      fullPath: '/admin/cv-review/pipeline'
+      preLoaderRoute: typeof AdminCvReviewPipelineRouteImport
+      parentRoute: typeof AdminCvReviewRoute
+    }
+    '/admin_/cv-review/team': {
+      id: '/admin_/cv-review/team'
+      path: '/team'
+      fullPath: '/admin/cv-review/team'
+      preLoaderRoute: typeof AdminCvReviewTeamRouteImport
+      parentRoute: typeof AdminCvReviewRoute
+    }
+    '/admin_/cv-review/cases/$caseId': {
+      id: '/admin_/cv-review/cases/$caseId'
+      path: '/cases/$caseId'
+      fullPath: '/admin/cv-review/cases/$caseId'
+      preLoaderRoute: typeof AdminCvReviewCasesCaseIdRouteImport
+      parentRoute: typeof AdminCvReviewRoute
+    }
   }
 }
+
+interface AdminCvReviewRouteChildren {
+  AdminCvReviewClientsRoute: typeof AdminCvReviewClientsRoute
+  AdminCvReviewPipelineRoute: typeof AdminCvReviewPipelineRoute
+  AdminCvReviewTeamRoute: typeof AdminCvReviewTeamRoute
+  AdminCvReviewIndexRoute: typeof AdminCvReviewIndexRoute
+  AdminCvReviewCasesCaseIdRoute: typeof AdminCvReviewCasesCaseIdRoute
+}
+
+const AdminCvReviewRouteChildren: AdminCvReviewRouteChildren = {
+  AdminCvReviewClientsRoute: AdminCvReviewClientsRoute,
+  AdminCvReviewPipelineRoute: AdminCvReviewPipelineRoute,
+  AdminCvReviewTeamRoute: AdminCvReviewTeamRoute,
+  AdminCvReviewIndexRoute: AdminCvReviewIndexRoute,
+  AdminCvReviewCasesCaseIdRoute: AdminCvReviewCasesCaseIdRoute,
+}
+
+const AdminCvReviewRouteWithChildren = AdminCvReviewRoute._addFileChildren(
+  AdminCvReviewRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -372,6 +506,7 @@ const rootRouteChildren: RootRouteChildren = {
   RoadmapRoute: RoadmapRoute,
   SkillsRoute: SkillsRoute,
   TrackerRoute: TrackerRoute,
+  AdminCvReviewRoute: AdminCvReviewRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

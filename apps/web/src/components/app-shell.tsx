@@ -176,6 +176,11 @@ export function AppShell({ children, full = false }: { children: ReactNode; full
                           <ShieldCheck className="size-4 text-brand-orange" /> Backoffice
                         </span>
                       </DropdownMenuItem>
+                      <DropdownMenuItem render={<Link to="/admin/cv-review" />}>
+                        <span className="flex items-center gap-2">
+                          <FileSearch className="size-4 text-brand-orange" /> CV Review Ops
+                        </span>
+                      </DropdownMenuItem>
                     </>
                   )}
                 </DropdownMenuGroup>

@@ -39,8 +39,8 @@ bun run dev        # web :3001 + server :3000 (wrangler dev + D1 lokal Miniflare
 |---|---|---|---|
 | Web URL | `http://localhost:3001` | `https://staging.karir.mulaiplus.id` | `https://karir.mulaiplus.id` |
 | Server URL | `http://localhost:3000` | `https://api-stag.karir.mulaiplus.id` | `https://api-prod.karir.mulaiplus.id` |
-| Worker web | — | `mulai-plus-web-staging` | `mulai-plus-web` |
-| Worker server | — | `mulai-plus-server-staging` | `mulai-plus-server` |
+| Worker web | — | `mulai-karir-web-staging` | `mulai-karir-web` |
+| Worker server | — | `mulai-karir-server-staging` | `mulai-karir-server` |
 | D1 | Miniflare (lokal) | `karir-mulai-plus-db-staging` | `karir-mulai-plus-db` |
 | Web env file | `.env.local` | `.env.staging` + `vite.config.staging.ts` | `.env.production` |
 | Server vars | `.dev.vars` | `[env.staging]` di wrangler.toml | `[vars]` di wrangler.toml |
